@@ -64,11 +64,14 @@
         map.on('draw:created', function(e) {
             // Cancello i valori precedenti nell'area di testo
             $('#data').val(' ');
+            console.log('e è : ' + e);
             console.log(e);
-            var type = e.layerType,
+            var type = e.layerType;
+            console.log('layerType è :' + e.layerType);
+            console.log( e.layerType);
             layer = e.layer;
-            // console.log(layer);
-            // console.log('layer e: ' + layer);   
+            console.log('layer e: ' + layer);   
+            console.log( layer);   
             // cancello la vecchia forma se ne disegno una nuova
             // in modo da averne sempre una se solo una per ogni quartiere
             // è un metodo scemo ma per ora uso questo.
