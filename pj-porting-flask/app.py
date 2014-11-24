@@ -6,14 +6,20 @@ from flask import g
 from flask import request, redirect
 from flask import render_template
 import json
-import sqlite3
+
+from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import Table, MetaData, create_engine
 
 app = Flask(__name__)
+# app.config.from_pyfile(config.py)
+# db = SQLAlchemy(app)
+engine = create_engine("postgresql://mic:@localhost/milanography",
+                       client_encoding='utf8')
+with engine.connect() as conn:
 
-
-@app.before_request
-def before_request():
-    g.db = sqlite3.connect("shapes.db")
+# @app.before_request
+# def before_request():
+#     g.db = sqlite3.connect("shapes.db")
 
 @app.teardown_request
 def teardown_request(exception):
@@ -36,5 +42,6 @@ def print_prova():
 
 if __name__ == '__main__':
 	app.run(debug=True)
+
 
 
