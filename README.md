@@ -2,7 +2,7 @@ Milanography
 ============
 
 # What
-Shameless adaptation of the great [Bostonography](http://bostonography.com/neighborhoods/) project to *la cità la pusee bèla ad mùnd*.  
+Shameless adaptation of the great [Bostonography](http://bostonography.com/neighborhoods/) project to *la cità la pusee bèla ad mùnd* (A.K.A. Milan).  
 
 # When
 Soon.  
@@ -10,7 +10,7 @@ Soon.
 Update! Completed porting from PJ's website.  
 Next goal:    
 
-- ~~Flask + SQLite  ~~
+- ~~Flask + SQLite~~
 - Flask + Postgres (via SQLAlchemy) ,es [1](http://blog.y3xz.com/blog/2012/08/16/flask-and-postgresql-on-heroku), [2](https://www.youtube.com/watch?v=FD0p-opdyoE) 
 - Set default brushes panel to exactly one polygon per category (every neighborhood is a catergory)  
 - Set default polygon brush tool to draw just one and only one shape for each neighborhood. But allow shape modification. 
