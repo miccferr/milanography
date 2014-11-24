@@ -12,14 +12,14 @@ Next goal:
 
 - ~~Flask + SQLite  ~~
 - Flask + Postgres (via SQLAlchemy) ,es [1](http://blog.y3xz.com/blog/2012/08/16/flask-and-postgresql-on-heroku), [2](https://www.youtube.com/watch?v=FD0p-opdyoE) 
-- Pennelli per più categorie (uno per quartiere) lungo una sidebar
-- Disegno di una ed una sola geometria per categoria
+- Set default brushes panel to exactly one polygon per category (every neighborhood is a catergory)  
+- Set default polygon brush tool to draw just one and only one shape for each neighborhood. But allow shape modification. 
 
 
 # Why
 Why not?
 
 # How
-Probably GeoDjango and some Leaflet wizardy.
+Probably ~~GeoDjango~~ Flask + Postgres and some Leaflet wizardy.
 
 
