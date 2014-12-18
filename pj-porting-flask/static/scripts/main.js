@@ -94,11 +94,11 @@
 
             // a = drawnItems.toGeoJSON();
             stampoSuFile(drawnItems.toGeoJSON());
- 
+            
 
         });
 
-      
+        
 
         // Preparo l'oggetto per la stampa su file     
         // console.log(drawnItems);    
