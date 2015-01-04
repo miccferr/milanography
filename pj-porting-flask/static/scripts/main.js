@@ -28,6 +28,7 @@ function stampoSuFile(a) {
     return blob;
 };
 
+// --------------------------------------------------------------------------------
 /* QUesta parte in cui creo i controlli non mi serve più:
 1- perchè non ho più i controlli
 2- perchè le opzioni che racchiudevano le ho ora spostate negli oggetti opzioniNOME-QUARTIERE
@@ -64,7 +65,7 @@ function stampoSuFile(a) {
 //     }
 // });
 // map.addControl(drawControl2);
-
+// --------------------------------------------------------------------------------
 
 // OPZIONI QUARTIERI
 var optionsLambrate = {
@@ -94,14 +95,13 @@ var optionsBarona = {
     }
 };
 
-// 
+// Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
 $('#Lambrate').on('click', function  () {
     console.log(drawControl.options.draw.polygon.shapeOptions.color);
     var polyDrawer = new L.Draw.Polygon(map, optionsLambrate).enable()
     
     console.log("Lambrate");
 });
-
 $('#Barona').on('click', function  () {
     console.log(drawControl2.options.draw.polygon.shapeOptions.color);
     new L.Draw.Polygon(map, drawControl2.options.polygon).enable()
@@ -109,7 +109,8 @@ $('#Barona').on('click', function  () {
     console.log("Barona");
 });
 
-// var oggetti = [];
+// Quando il poligono è stato disegnato allora tramite CSS impedisco che se ne possa disegnare un successivo.
+// TO DO: Da implementare la possibilità di disegnare solo uno per quartiere ma più di uno per tutta la mappa (infatti uno per ogni quartiere per 10 quartieri totali)
 map.on('draw:created', function(e) {
     // Cancello i valori precedenti nell'area di testo
     $('#data').val(' ');
@@ -131,19 +132,10 @@ map.on('draw:created', function(e) {
     $('#data').val(JSON.stringify(shape_to_print, null, '\t'));
     // a = drawnItems.toGeoJSON();
     stampoSuFile(drawnItems.toGeoJSON());
-    
-
 });
 
-
-
-// Preparo l'oggetto per la stampa su file     
-// console.log(drawnItems);    
+// Preparo l'oggetto per la stampa su file
 stampoSuFile(drawnItems.toGeoJSON());
 
-
-
-
-
 // Preparo l'oggetto per il db
-// TODO
+// TODO: mi sembra che questa parte sia stata fatta con FLask. Da controllare. Sicuramente è da implementare con Postgres e non SQLite
