@@ -1,18 +1,20 @@
 // Dichiaro ed assegno la mappa + opzioni
 var map = L.map('map').setView([-41.2858, 174.78682], 14);
-// Attribution
+// Attribution Link
 mapLink =
 '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-// BaseLayer
+// BaseLayer 
 L.tileLayer(
     'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; ' + mapLink + ' Contributors',
         maxZoom: 18,
     }).addTo(map);
 
-// Layer oggetti disegnati
+// Overlay Layers for each polygon Neighborhood
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
+var drawnItemsBarona = new L.FeatureGroup();
+map.addLayer(drawnItemsBarona);
 
 /**
  * [stampoSuFile Trasforma un'input JSON in txt semplice]
@@ -97,21 +99,17 @@ var optionsBarona = {
 
 // Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
 $('#Lambrate').on('click', function  () {
-    console.log(drawControl.options.draw.polygon.shapeOptions.color);
-    var polyDrawer = new L.Draw.Polygon(map, optionsLambrate).enable()
-    
+    var polyDrawerLambrate = new L.Draw.Polygon(map, optionsLambrate).enable()
     console.log("Lambrate");
 });
 $('#Barona').on('click', function  () {
-    console.log(drawControl2.options.draw.polygon.shapeOptions.color);
-    new L.Draw.Polygon(map, drawControl2.options.polygon).enable()
-    
+    var polyDrawerBarona = new L.Draw.Polygon(map, optionsBarona).enable()
     console.log("Barona");
 });
 
 // Quando il poligono è stato disegnato allora tramite CSS impedisco che se ne possa disegnare un successivo.
 // TO DO: Da implementare la possibilità di disegnare solo uno per quartiere ma più di uno per tutta la mappa (infatti uno per ogni quartiere per 10 quartieri totali)
-map.on('draw:created', function(e) {
+map.on('draw:created' , function(e) {    
     // Cancello i valori precedenti nell'area di testo
     $('#data').val(' ');
     var type = e.layerType;
@@ -123,7 +121,14 @@ map.on('draw:created', function(e) {
     if(drawnItems && drawnItems.getLayers().length!==0){
         drawnItems.clearLayers();
     }
+    // Questo è il passaggio in cui i poligoni disegnati vengono aggiunti al layer di overlay.
+    // Bisgona implementare un modo per avere totlayer= totquartieri
+    // E visto che poi è un casino lavorare con un numero da 0 ad x di layer bisogna trovare il modo di unirli tutti in un unico GroupLayer e stampare/salvare su db solo quello
     drawnItems.addLayer(layer);
+    drawnItemsBarona.addLayer(layer);
+
+    // Fin qui i comandi per disegnare su mappa
+    // Qui sotto invece i passaggi per stampare a video/su txt
     // Converto ogni layer in geoJSON
     var shape = layer.toGeoJSON()
     // Preparo l'oggtto per la stampa a video
