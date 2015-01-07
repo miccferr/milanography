@@ -1,3 +1,7 @@
+/*--------------------------------------------------------
+GENERAL MAP SETUP
+ --------------------------------------------------------*/
+
 // Dichiaro ed assegno la mappa + opzioni
 var map = L.map('map').setView([-41.2858, 174.78682], 14);
 // Attribution Link
@@ -13,8 +17,10 @@ L.tileLayer(
 // Overlay Layers for each polygon Neighborhood
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
-// var drawnItemsBarona = new L.FeatureGroup();
-// map.addLayer(drawnItemsBarona);
+
+/*--------------------------------------------------------
+UTILITIES FUNCTIONS
+ --------------------------------------------------------*/
 
 /**
  * [stampoSuFile Trasforma un'input JSON in txt semplice]
@@ -29,47 +35,20 @@ map.addLayer(drawnItems);
     });
     return blob;
 };
+/**
+ * [isInArray Controlla se un valore è presente in un array]
+ * @param  {qualisasi}  value valore da controllare
+ * @param  {array}  array l'array in cui controllare la presenza del valore
+ * @return {Boolean}       the function returns a boolean in case of absence/presence of a value.
+ * function from https://stackoverflow.com/users/304588/richard-neil-ilagan
+ */
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
 
-// --------------------------------------------------------------------------------
-/* QUesta parte in cui creo i controlli non mi serve più:
-1- perchè non ho più i controlli
-2- perchè le opzioni che racchiudevano le ho ora spostate negli oggetti opzioniNOME-QUARTIERE
-*/
-// var drawControl = new L.Control.Draw({
-//     position: 'topleft',
-//     draw: {
-//         polygon:{
-//             shapeOptions: {
-//                 color: 'blue'                    
-//             },
-//         },
-
-//         polyline:false,
-//         rectangle: false,
-//         circle: false,
-//         marker: false
-//     }
-// });
-// map.addControl(drawControl); 
-
-// var drawControl2 = new L.Control.Draw({
-//     position: 'topleft',
-//     draw: {
-//         polygon: {
-//             shapeOptions: {
-//                 color: 'yellow'                        
-//             },
-//         },
-//         polyline:false,
-//         rectangle: false,
-//         circle: false,
-//         marker: false
-//     }
-// });
-// map.addControl(drawControl2);
-// --------------------------------------------------------------------------------
-
-// OPZIONI QUARTIERI
+/*--------------------------------------------------------
+NEIGHBORHOODS SETUP
+ --------------------------------------------------------*/
 var optionsLambrate = {
     showArea: true,
     shapeOptions: {
@@ -101,203 +80,31 @@ var optionsBarona = {
 };
 
 
-// lettere = "abcdefghilmnopqrstuvz"
-// parola= "Quel fez sghembo copre davanti".lower().replace(' ','')
-// trovate = []
-// for x in parola:
-//     if x not in trovate: #così elimino i doppioni, perchè prendo solo quelle lettere che non ci sono di già
-//         trovate.append(x)
-// print sorted(trovate) == list(lettere) #confronto quindi con il mio array delle lettere dell'alfabeto italiano, convertendo però tutto in liste
-// print ''.join(sorted(trovate)) == lettere #alternativamente potevo convertire tutti gli elementi di "trovate" in stringa e poi compararlo con lettere
-// 
-// 
-// // NomiQuartieri = "abcdefghilmnopqrstuvz"
-// parola= "Quel fez sghembo copre davanti".lower().replace(' ','')
-
-
-// DOVREBBE FUNZIONARE SEGUENDO LO SCHEMA DI QUESTO PSEUDO-CODICE
-// disegnati = []
-// for x in drawnItems().getLayers().options.name
-//     if x not in disegnati
-//         disegnati.push(x)
-//         drawnItems.addLayer(layer);
-//      else
-//          drawnItems.clearLayers(x);
-
-disegnati = [];
 
 // Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
 $('#Lambrate').on('click', function  () {
-    var polyDrawerLambrate = new L.Draw.Polygon(map, optionsLambrate).enable()
-    // disegnati.push("Lambrate");
-    // console.log("Lambrate");
-    // // var drawnItems = new L.FeatureGroup();
-    // map.addLayer(drawnItems);
-    // var elencoNomi = [];
+    var polyDrawerLambrate = new L.Draw.Polygon(map, optionsLambrate).enable()    
 });
-
-
 $('#Barona').on('click', function  () {
-    var polyDrawerBarona = new L.Draw.Polygon(map, optionsBarona).enable()
-    // disegnati.push("Barona");
-    // console.log("Barona");   
-    // var drawnItems = new L.FeatureGroup();
-    // map.addLayer(drawnItems);
-    // var elencoNomi = [];      
+    var polyDrawerBarona = new L.Draw.Polygon(map, optionsBarona).enable()   
 });
 
-function isInArray(value, array) {
-  return array.indexOf(value) > -1;
-}
 
-// BEST SHOT SO FAR
+// array storing the names of already drawn neighborhoods
+disegnati = [];
+
+
+// Vecchio codice
 // map.on('draw:created' , function(e) {
 //     var type = e.layerType;
 //     var layer = e.layer;
-//     // var nome = layer.options.name
-//     // console.log(nome);
-//     // elencoNomi.push(nome);    
-//     // var elencoNomiUnici = $.unique(elencoNomi);
-//     // questo lo lascio solo per comodità di test:
-//     drawnItems.addLayer(layer);
-//     disegnati = [];
-//     for (x in drawnItems.getLayers() ) {
-//         // console.log(drawnItems.getLayers()[x].options.name);
-//         nomeQuartiere = drawnItems.getLayers()[x].options.name
-//         console.log(nomeQuartiere);
-//         console.log(disegnati);
-//         if ( !isInArray(nomeQuartiere,disegnati)){
-//             disegnati.push(nomeQuartiere)
-//             console.log(layer);
-//             console.log("entro nell''if");
-//             drawnItems.addLayer(layer);
-//         }else{
-//          drawnItems.clearLayers(drawnItems.getLayers()[x]);
-//         } 
-//     }
-
-
-// Altro tentativo in cui sposto la logica e non itero più su tutti i drawnItems perchè di fatto lo "fa già lui" ogni volta che cambia il draw:created
-// per cui metto l'array che tiene conto di quelli disegnati sopra ed ogni volta che clicco sul quartiere gli pusho il nome relativo
-//  e poi uso il draw:created come sopra usavo il for per passare in rassegna "concettualmente però" il nuovo array creato
-// map.on('draw:created' , function(e) {
-//     var type = e.layerType;
-//     var layer = e.layer;
-//     console.log(layer);
-//     // nomeQuartiere = drawnItems.getLayers(e)
-//     nomeQuartiere = layer.options.name
-//     if ( !isInArray(nomeQuartiere,disegnati)){
-//             disegnati.push(nomeQuartiere);
-//         if(drawnItems && drawnItems.getLayers(nomeQuartiere[i].length)!==0){
-//     //         // console.log(drawnItems.getLayers(name));
-//     //         drawnItems.clearLayers(elencoNomiUnici[i].layer);
-//             drawnItems.clearLayers()[layer.options.name === nomeQuartiere];
-//         }else{
-//             drawnItems.addLayer(layer);
-//         }  
-//     }else{
-//         drawnItems.clearLayers()[layer.options.name === nomeQuartiere];
-//     };
-// });
-
-// drawnItems.getLayers()[x]
-// 
-function countElement(item,array) {
-    var count = 0;
-    $.each(array, function(indice,v) { if (v === item) count++; });
-    return count;
-}
-
-
-// function check (item,array) {
-//     for (var i = 0; i<array.length; i++){
-//         if (array[i] === item){
-//             return 1 ;
-//         }else{
-//             return 0;
-//         };
-//     };
-// };
-
-map.on('draw:created' , function(e) {
-    var type = e.layerType;
-    var layer = e.layer;
-    // console.log(layer.options);
-    // nomeQuartiere = drawnItems.getLayers(e)
-    nomeQuartiere = layer.options.name
-    // console.log(nomeQuartiere);
-    // console.log(drawnItems.getLayers());
-    // console.log(countElement(drawnItems.getLayers()[i], drawnItems.getLayers()));
-    if ( !isInArray(nomeQuartiere,disegnati)){
-        disegnati.push(nomeQuartiere);            
-    }else{
-        console.log("cancello");
-        for (var obj in drawnItems._layers){            
-            console.log(drawnItems._layers[obj].options.name);
-            if (drawnItems._layers[obj].options.name === nomeQuartiere){
-                drawnItems.removeLayer(drawnItems._layers[obj])
-            }
-        }
-
-        // console.log("aslemno sono entrato");
-        // for (var i = 0; i<drawnItems.getLayers().length; i++ ){
-        //     console.log("asdas");
-        //     // console.log(countElement(layer, drawnItems.getLayers()[i]));
-        //     // if(countElement(drawnItems.getLayers()[i].options.name, drawnItems.getLayers()) !==0){
-        //     if(countElement(nomeQuartiere, drawnItems.getLayers()) !==0){
-        //         console.log(countElement(drawnItems.getLayers()[i] ,drawnItems.getLayers()) );
-        //         console.log(drawnItems.getLayers()[i].options.name);
-        //         // console.log(drawnItems.getLayers(layer).length);
-        //         // console.log(drawnItems.getLayers().length);
-        //         // drawnItems.addLayer(layer);
-        //         // drawnItems.clearLayers()[layer];
-        //         console.log("wadas");
-        //         drawnItems.clearLayers(layer);
-        //         // drawnItems.clearLayers()[i].options.name === nomeQuartiere;
-        //     }else{
-        //         drawnItems.addLayer(layer);
-        //         console.log("snon scemo e disegno");
-        //         // drawnItems.addLayers()[i].options.name === nomeQuartiere;
-        //     }
-        // }
-    }
-console.log("ddd");
-drawnItems.addLayer(layer);
-
-});
-
-// ALTRO TENTATIVO ANCORA
-// map.on('draw:created' , function(e) {
-//     var type = e.layerType;
-//     var layer = e.layer;
-//     // console.log(layer.options);
-//     // nomeQuartiere = drawnItems.getLayers(e)
-//     nomeQuartiere = layer.options.name
-//     // console.log(nomeQuartiere);
-//     // console.log(drawnItems.getLayers());
-//     // console.log(countElement(drawnItems.getLayers()[i], drawnItems.getLayers()));
+//     nomeQuartiere = layer.options.name    
 //     if ( !isInArray(nomeQuartiere,disegnati)){
 //         disegnati.push(nomeQuartiere);            
 //     }else{
-//         console.log("aslemno sono entrato");
-//         for (var i = 0; i<drawnItems.getLayers().length; i++ ){
-//             console.log("asdas");
-//             // console.log(countElement(layer, drawnItems.getLayers()[i]));
-//             // if(countElement(drawnItems.getLayers()[i].options.name, drawnItems.getLayers()) !==0){
-//             if(countElement(nomeQuartiere, drawnItems.getLayers()) !==0){
-//                 console.log(countElement(drawnItems.getLayers()[i] ,drawnItems.getLayers()) );
-//                 console.log(drawnItems.getLayers()[i].options.name);
-//                 // console.log(drawnItems.getLayers(layer).length);
-//                 // console.log(drawnItems.getLayers().length);
-//                 // drawnItems.addLayer(layer);
-//                 // drawnItems.clearLayers()[layer];
-//                 console.log("wadas");
-//                 drawnItems.clearLayers(layer);
-//                 // drawnItems.clearLayers()[i].options.name === nomeQuartiere;
-//             }else{
-//                 drawnItems.addLayer(layer);
-//                 console.log("snon scemo e disegno");
-//                 // drawnItems.addLayers()[i].options.name === nomeQuartiere;
+//         for (var obj in drawnItems._layers){
+//             if (drawnItems._layers[obj].options.name === nomeQuartiere){
+//                 drawnItems.removeLayer(drawnItems._layers[obj])
 //             }
 //         }
 //     }
@@ -306,140 +113,41 @@ drawnItems.addLayer(layer);
 // });
 
 
-// // ALTRO TENTATIVO ANCORA
-// map.on('draw:created' , function(e) {
-//     var type = e.layerType;
-//     var layer = e.layer;
-//     // console.log(layer.options);
-//     // nomeQuartiere = drawnItems.getLayers(e)
-//     nomeQuartiere = layer.options.name
-//     // console.log(layer);
-//     // console.log(e);
-//     // console.log(countElement(drawnItems.getLayers(), drawnItems.getLayers()));
-//     // console.log(nomeQuartiere);
-//     // console.log(drawnItems.getLayers());
-//     // console.log(countElement(drawnItems.getLayers()[i], drawnItems.getLayers()));
-//     if ( !isInArray(nomeQuartiere,disegnati)){
-//         disegnati.push(nomeQuartiere);            
-//     }else{
-//         console.log("aslemno sono entrato");
-//         drawnItems.getLayers().map(function (livello) {
-//                 console.log(livello);
-//                 if(countElement(livello, drawnItems.getLayers()) !==0){            
-//                     console.log("wadas");
-//                     drawnItems.clearLayers(layer);
-//                     // drawnItems.clearLayers()[i].options.name === nomeQuartiere;
-//                 }else{
-//                     drawnItems.addLayer(layer);
-//                     // drawnItems.addLayers()[i].options.name === nomeQuartiere;
-//                 }
-//             });
-//     }
-// console.log("ddd");
-// drawnItems.addLayer(layer);
-// });
 
 
+map.on('draw:created' , function(e) {    
+    // Cancello i valori precedenti nell'area di testo
+    $('#data').val(' ');
+    var type = e.layerType;
+    layer = e.layer;
+    assegno il nome del quartiere
+    nomeQuartiere = layer.options.name       
+    // cancello la vecchia forma se ne disegno una nuova
+    // in modo da averne sempre una e solo una per ogni quartiere
+    if ( !isInArray(nomeQuartiere,disegnati)){
+            disegnati.push(nomeQuartiere);            
+        }else{
+            for (var obj in drawnItems._layers){
+                if (drawnItems._layers[obj].options.name === nomeQuartiere){
+                    drawnItems.removeLayer(drawnItems._layers[obj])
+                }
+            }
+        }
+    // Questo è il passaggio in cui i poligoni disegnati vengono aggiunti al layer di overlay.
+    drawnItems.addLayer(layer);
+    // Fin qui i comandi per disegnare su mappa
+    // Qui sotto invece i passaggi per stampare a video/su txt
+    // Converto ogni layer in geoJSON
+    var shape = layer.toGeoJSON()
+    // Preparo l'oggtto per la stampa a video
+    var shape_to_print = drawnItems.toGeoJSON();
+    // Stampo nell'area di testo gli oggetti correntemente generati 
+    $('#data').val(JSON.stringify(shape_to_print, null, '\t'));
+    // a = drawnItems.toGeoJSON();
+    // Preparo l'oggetto per la stampa su file
+    stampoSuFile(drawnItems.toGeoJSON());
+});
 
-
-// VECCHI TENTATIVI
-
-// map.on('draw:created' , function(e) {
-//     var type = e.layerType;
-//     var layer = e.layer;
-//     var nome = layer.options.name
-//     elencoNomi.push(nome);    
-//     var elencoNomiUnici = $.unique(elencoNomi);
-//     drawnItems.addLayer(layer);
-//     if(drawnItems && drawnItems.getLayers().length!==1){
-//     drawnItems.clearLayers();
-// };
-// });
-
-    // jQuery.each(drawnItems.getLayers()[i].options, function(i, val) {
-    //     console.log(val);
-        // console.log(drawnItems.getLayers()[i].options.name);
-        // console.log(i);
-        // console.log(val.options.name);
-        // $.each($.unique(val.options.name), function(index, val) {
-        //       if val.length> 1
-        //         console.log("asda");
-        //  }); 
-
-            // if (drawnItems.getLayers()[i].options.name > 1)
-            //     console.log("più di uno");
-
-
-        // count = 0;
-        // for // var lung = drawnItems.getLayers()[i].length
-        // if (drawnItems.getLayers()[i].length > 0 )
-        //     console.log("più di uno");
-    // });
-    // elementi = [];
-    // var elementi = drawnItems.getLayers() 
-    // console.log(elementi);
-    // for (var i=0; i<elementi.length; i++)
-    //     console.log(elementi[i]);
-    
-    // for (nomeUnico in elencoNomiUnici)
-    //     for (elemento in elementi)
-    //         if (elementi[elemento].options.name===elencoNomiUnici[nomeUnico].length!==1)
-    //             drawnItems.clearLayers(elementi[elemento].options.name===elencoNomiUnici[nomeUnico]);
-    
-       // if(drawnItems && elemento [name].length)!==0){
-
-       // }
-    // for (var i=0; i<elencoNomiUnici.length; i++){
-    //     console.log(elencoNomiUnici[i]);
-    //     if(drawnItems && drawnItems.getLayers(elencoNomiUnici[i].length)!==0){
-    //         // console.log(drawnItems.getLayers(name));
-    //         drawnItems.clearLayers(elencoNomiUnici[i].layer);
-    //     };   
-    // }
-
-
-// map.on('#Barona' && 'draw:created' , function(e) {
-//     console.log("Barona");
-//     var type = e.layerType;
-//     layer = e.layer;
-//     drawnItemsBarona.addLayer(layer);
-//     if(drawnItemsBarona && drawnItemsBarona.getLayers().length!==0){
-//         drawnItemsBarona.clearLayers();
-//     };
-// });
-
-// Quando il poligono è stato disegnato allora tramite CSS impedisco che se ne possa disegnare un successivo.
-// TO DO: Da implementare la possibilità di disegnare solo uno per quartiere ma più di uno per tutta la mappa (infatti uno per ogni quartiere per 10 quartieri totali)
-// map.on('draw:created' , function(e) {    
-//     // Cancello i valori precedenti nell'area di testo
-//     $('#data').val(' ');
-//     var type = e.layerType;
-//     layer = e.layer;   
-//     // cancello la vecchia forma se ne disegno una nuova
-//     // in modo da averne sempre una e solo una per ogni quartiere
-//     // è un metodo scemo ma per ora uso questo.
-//     // il top sarebbe riuscire a fissare il limite ad 1 e poi dare la possibilità di editare
-
-//     // Questo è il passaggio in cui i poligoni disegnati vengono aggiunti al layer di overlay.
-//     // Bisgona implementare un modo per avere totlayer= totquartieri
-//     // E visto che poi è un casino lavorare con un numero da 0 ad x di layer bisogna trovare il modo di unirli tutti in un unico GroupLayer e stampare/salvare su db solo quello
-
-
-
-//     // Fin qui i comandi per disegnare su mappa
-//     // Qui sotto invece i passaggi per stampare a video/su txt
-//     // Converto ogni layer in geoJSON
-//     var shape = layer.toGeoJSON()
-//     // Preparo l'oggtto per la stampa a video
-//     var shape_to_print = drawnItems.toGeoJSON();
-//     // Stampo nell'area di testo gli oggetti correntemente generati 
-//     $('#data').val(JSON.stringify(shape_to_print, null, '\t'));
-//     // a = drawnItems.toGeoJSON();
-//     stampoSuFile(drawnItems.toGeoJSON());
-// });
-
-// Preparo l'oggetto per la stampa su file
-// stampoSuFile(drawnItems.toGeoJSON());
 
 // Preparo l'oggetto per il db
 // TODO: mi sembra che questa parte sia stata fatta con FLask. Da controllare. Sicuramente è da implementare con Postgres e non SQLite
