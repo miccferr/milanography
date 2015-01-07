@@ -11,7 +11,7 @@ Update! Completed porting from PJ's website.
 Next goal:    
 
 - ~~Flask + SQLite~~
-- ~~Set default brushes panel to exactly one polygon per category (every neighborhood is a catergory)  ~~
+- ~~Set default brushes panel to exactly one polygon per category (every neighborhood is a catergory)~~
 - ~~Set default polygon brush tool to draw just one and only one shape for each neighborhood.~~  
 - Allow drawn shape to be modified.
 - Flask + Postgres (via SQLAlchemy) ,es [1](http://blog.y3xz.com/blog/2012/08/16/flask-and-postgresql-on-heroku), [2](https://www.youtube.com/watch?v=FD0p-opdyoE) **NEW:** take a look at [this](https://stackoverflow.com/questions/9901082/what-is-this-javascript-require) script  
