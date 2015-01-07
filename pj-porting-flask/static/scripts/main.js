@@ -3,7 +3,7 @@ GENERAL MAP SETUP
  --------------------------------------------------------*/
 
 // Dichiaro ed assegno la mappa + opzioni
-var map = L.map('map').setView([-41.2858, 174.78682], 14);
+var map = L.map('map').setView([45.468874, 9.187517], 14);
 // Attribution Link
 mapLink =
 '<a href="http://openstreetmap.org">OpenStreetMap</a>';
@@ -120,7 +120,7 @@ map.on('draw:created' , function(e) {
     $('#data').val(' ');
     var type = e.layerType;
     layer = e.layer;
-    assegno il nome del quartiere
+    // assegno il nome del quartiere
     nomeQuartiere = layer.options.name       
     // cancello la vecchia forma se ne disegno una nuova
     // in modo da averne sempre una e solo una per ogni quartiere
