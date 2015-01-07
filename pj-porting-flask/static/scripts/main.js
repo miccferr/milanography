@@ -21,7 +21,7 @@ map.addLayer(drawnItems);
  * @param  {[type]} a [JSON in input]
  * @return {[type]}   [un oggetto Blob (txt in questo caso)]
  */
-function stampoSuFile(a) {
+ function stampoSuFile(a) {
     // var a = drawnItems.toGeoJSON();
     shape_to_txt = JSON.stringify(a, null, '\t')
     var blob = new Blob([shape_to_txt], {
@@ -124,35 +124,225 @@ var optionsBarona = {
 //      else
 //          drawnItems.clearLayers(x);
 
+disegnati = [];
+
 // Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
 $('#Lambrate').on('click', function  () {
     var polyDrawerLambrate = new L.Draw.Polygon(map, optionsLambrate).enable()
+    // disegnati.push("Lambrate");
     // console.log("Lambrate");
     // // var drawnItems = new L.FeatureGroup();
     // map.addLayer(drawnItems);
     // var elencoNomi = [];
 });
- 
- $('#Barona').on('click', function  () {
+
+
+$('#Barona').on('click', function  () {
     var polyDrawerBarona = new L.Draw.Polygon(map, optionsBarona).enable()
+    // disegnati.push("Barona");
     // console.log("Barona");   
     // var drawnItems = new L.FeatureGroup();
     // map.addLayer(drawnItems);
     // var elencoNomi = [];      
 });
- 
+
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
+
+// BEST SHOT SO FAR
+// map.on('draw:created' , function(e) {
+//     var type = e.layerType;
+//     var layer = e.layer;
+//     // var nome = layer.options.name
+//     // console.log(nome);
+//     // elencoNomi.push(nome);    
+//     // var elencoNomiUnici = $.unique(elencoNomi);
+//     // questo lo lascio solo per comodità di test:
+//     drawnItems.addLayer(layer);
+//     disegnati = [];
+//     for (x in drawnItems.getLayers() ) {
+//         // console.log(drawnItems.getLayers()[x].options.name);
+//         nomeQuartiere = drawnItems.getLayers()[x].options.name
+//         console.log(nomeQuartiere);
+//         console.log(disegnati);
+//         if ( !isInArray(nomeQuartiere,disegnati)){
+//             disegnati.push(nomeQuartiere)
+//             console.log(layer);
+//             console.log("entro nell''if");
+//             drawnItems.addLayer(layer);
+//         }else{
+//          drawnItems.clearLayers(drawnItems.getLayers()[x]);
+//         } 
+//     }
+
+
+// Altro tentativo in cui sposto la logica e non itero più su tutti i drawnItems perchè di fatto lo "fa già lui" ogni volta che cambia il draw:created
+// per cui metto l'array che tiene conto di quelli disegnati sopra ed ogni volta che clicco sul quartiere gli pusho il nome relativo
+//  e poi uso il draw:created come sopra usavo il for per passare in rassegna "concettualmente però" il nuovo array creato
+// map.on('draw:created' , function(e) {
+//     var type = e.layerType;
+//     var layer = e.layer;
+//     console.log(layer);
+//     // nomeQuartiere = drawnItems.getLayers(e)
+//     nomeQuartiere = layer.options.name
+//     if ( !isInArray(nomeQuartiere,disegnati)){
+//             disegnati.push(nomeQuartiere);
+//         if(drawnItems && drawnItems.getLayers(nomeQuartiere[i].length)!==0){
+//     //         // console.log(drawnItems.getLayers(name));
+//     //         drawnItems.clearLayers(elencoNomiUnici[i].layer);
+//             drawnItems.clearLayers()[layer.options.name === nomeQuartiere];
+//         }else{
+//             drawnItems.addLayer(layer);
+//         }  
+//     }else{
+//         drawnItems.clearLayers()[layer.options.name === nomeQuartiere];
+//     };
+// });
+
+// drawnItems.getLayers()[x]
+// 
+function countElement(item,array) {
+    var count = 0;
+    $.each(array, function(indice,v) { if (v === item) count++; });
+    return count;
+}
+
+
+// function check (item,array) {
+//     for (var i = 0; i<array.length; i++){
+//         if (array[i] === item){
+//             return 1 ;
+//         }else{
+//             return 0;
+//         };
+//     };
+// };
+
 map.on('draw:created' , function(e) {
     var type = e.layerType;
     var layer = e.layer;
-    var nome = layer.options.name
-    console.log(nome);
-    // elencoNomi.push(nome);    
-    // var elencoNomiUnici = $.unique(elencoNomi);
-    drawnItems.addLayer(layer);
-    if(drawnItems && drawnItems.getLayers().length !== 0){
-    drawnItems.clearLayers();
-};
+    // console.log(layer.options);
+    // nomeQuartiere = drawnItems.getLayers(e)
+    nomeQuartiere = layer.options.name
+    // console.log(nomeQuartiere);
+    // console.log(drawnItems.getLayers());
+    // console.log(countElement(drawnItems.getLayers()[i], drawnItems.getLayers()));
+    if ( !isInArray(nomeQuartiere,disegnati)){
+        disegnati.push(nomeQuartiere);            
+    }else{
+        console.log("cancello");
+        for (var obj in drawnItems._layers){            
+            console.log(drawnItems._layers[obj].options.name);
+            if (drawnItems._layers[obj].options.name === nomeQuartiere){
+                drawnItems.removeLayer(drawnItems._layers[obj])
+            }
+        }
+
+        // console.log("aslemno sono entrato");
+        // for (var i = 0; i<drawnItems.getLayers().length; i++ ){
+        //     console.log("asdas");
+        //     // console.log(countElement(layer, drawnItems.getLayers()[i]));
+        //     // if(countElement(drawnItems.getLayers()[i].options.name, drawnItems.getLayers()) !==0){
+        //     if(countElement(nomeQuartiere, drawnItems.getLayers()) !==0){
+        //         console.log(countElement(drawnItems.getLayers()[i] ,drawnItems.getLayers()) );
+        //         console.log(drawnItems.getLayers()[i].options.name);
+        //         // console.log(drawnItems.getLayers(layer).length);
+        //         // console.log(drawnItems.getLayers().length);
+        //         // drawnItems.addLayer(layer);
+        //         // drawnItems.clearLayers()[layer];
+        //         console.log("wadas");
+        //         drawnItems.clearLayers(layer);
+        //         // drawnItems.clearLayers()[i].options.name === nomeQuartiere;
+        //     }else{
+        //         drawnItems.addLayer(layer);
+        //         console.log("snon scemo e disegno");
+        //         // drawnItems.addLayers()[i].options.name === nomeQuartiere;
+        //     }
+        // }
+    }
+console.log("ddd");
+drawnItems.addLayer(layer);
+
 });
+
+// ALTRO TENTATIVO ANCORA
+// map.on('draw:created' , function(e) {
+//     var type = e.layerType;
+//     var layer = e.layer;
+//     // console.log(layer.options);
+//     // nomeQuartiere = drawnItems.getLayers(e)
+//     nomeQuartiere = layer.options.name
+//     // console.log(nomeQuartiere);
+//     // console.log(drawnItems.getLayers());
+//     // console.log(countElement(drawnItems.getLayers()[i], drawnItems.getLayers()));
+//     if ( !isInArray(nomeQuartiere,disegnati)){
+//         disegnati.push(nomeQuartiere);            
+//     }else{
+//         console.log("aslemno sono entrato");
+//         for (var i = 0; i<drawnItems.getLayers().length; i++ ){
+//             console.log("asdas");
+//             // console.log(countElement(layer, drawnItems.getLayers()[i]));
+//             // if(countElement(drawnItems.getLayers()[i].options.name, drawnItems.getLayers()) !==0){
+//             if(countElement(nomeQuartiere, drawnItems.getLayers()) !==0){
+//                 console.log(countElement(drawnItems.getLayers()[i] ,drawnItems.getLayers()) );
+//                 console.log(drawnItems.getLayers()[i].options.name);
+//                 // console.log(drawnItems.getLayers(layer).length);
+//                 // console.log(drawnItems.getLayers().length);
+//                 // drawnItems.addLayer(layer);
+//                 // drawnItems.clearLayers()[layer];
+//                 console.log("wadas");
+//                 drawnItems.clearLayers(layer);
+//                 // drawnItems.clearLayers()[i].options.name === nomeQuartiere;
+//             }else{
+//                 drawnItems.addLayer(layer);
+//                 console.log("snon scemo e disegno");
+//                 // drawnItems.addLayers()[i].options.name === nomeQuartiere;
+//             }
+//         }
+//     }
+// console.log("ddd");
+// drawnItems.addLayer(layer);
+// });
+
+
+// // ALTRO TENTATIVO ANCORA
+// map.on('draw:created' , function(e) {
+//     var type = e.layerType;
+//     var layer = e.layer;
+//     // console.log(layer.options);
+//     // nomeQuartiere = drawnItems.getLayers(e)
+//     nomeQuartiere = layer.options.name
+//     // console.log(layer);
+//     // console.log(e);
+//     // console.log(countElement(drawnItems.getLayers(), drawnItems.getLayers()));
+//     // console.log(nomeQuartiere);
+//     // console.log(drawnItems.getLayers());
+//     // console.log(countElement(drawnItems.getLayers()[i], drawnItems.getLayers()));
+//     if ( !isInArray(nomeQuartiere,disegnati)){
+//         disegnati.push(nomeQuartiere);            
+//     }else{
+//         console.log("aslemno sono entrato");
+//         drawnItems.getLayers().map(function (livello) {
+//                 console.log(livello);
+//                 if(countElement(livello, drawnItems.getLayers()) !==0){            
+//                     console.log("wadas");
+//                     drawnItems.clearLayers(layer);
+//                     // drawnItems.clearLayers()[i].options.name === nomeQuartiere;
+//                 }else{
+//                     drawnItems.addLayer(layer);
+//                     // drawnItems.addLayers()[i].options.name === nomeQuartiere;
+//                 }
+//             });
+//     }
+// console.log("ddd");
+// drawnItems.addLayer(layer);
+// });
+
+
+
+
+// VECCHI TENTATIVI
 
 // map.on('draw:created' , function(e) {
 //     var type = e.layerType;
@@ -175,10 +365,10 @@ map.on('draw:created' , function(e) {
         //       if val.length> 1
         //         console.log("asda");
         //  }); 
-        
+
             // if (drawnItems.getLayers()[i].options.name > 1)
             //     console.log("più di uno");
-        
+
 
         // count = 0;
         // for // var lung = drawnItems.getLayers()[i].length
@@ -229,12 +419,12 @@ map.on('draw:created' , function(e) {
 //     // in modo da averne sempre una e solo una per ogni quartiere
 //     // è un metodo scemo ma per ora uso questo.
 //     // il top sarebbe riuscire a fissare il limite ad 1 e poi dare la possibilità di editare
-   
+
 //     // Questo è il passaggio in cui i poligoni disegnati vengono aggiunti al layer di overlay.
 //     // Bisgona implementare un modo per avere totlayer= totquartieri
 //     // E visto che poi è un casino lavorare con un numero da 0 ad x di layer bisogna trovare il modo di unirli tutti in un unico GroupLayer e stampare/salvare su db solo quello
-    
-    
+
+
 
 //     // Fin qui i comandi per disegnare su mappa
 //     // Qui sotto invece i passaggi per stampare a video/su txt
