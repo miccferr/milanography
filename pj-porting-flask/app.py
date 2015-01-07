@@ -4,6 +4,7 @@ import os
 from flask import Flask
 from flask import g
 from flask import request, redirect
+from flask import render_template
 import json
 import sqlite3
 
@@ -25,26 +26,13 @@ def save_json():
     g.db.execute("INSERT INTO shapes VALUES (?)", [data])
     g.db.commit()
     print "salvo data"
-    # return redirect('/')
-
-# @app.route('/emails')
-# def emails():
-#     email_addresses = g.db.execute("SELECT email FROM email_addresses").fetchall()
-#     return render_template('emails.html', email_addresses=email_addresses)
-
-@app.route('/export_json', methods = ['POST'])
-def export_json():
-    json_data = json.dumps(data)
-    with open('data_flask.txt', 'w') as outfile:    
-        json.dump(data, some_file_object)
-    print "esporto json_data"
+    print data
     return redirect('/')
 
-
-@app.route('/', methods = ['POST'])
+@app.route('/', methods = ['GET'])
 def print_prova():
     print "funziona!"
-    return redirect('/')
+    return render_template('index.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)

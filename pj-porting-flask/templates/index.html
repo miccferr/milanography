@@ -1,5 +1,6 @@
 <!doctype html>
 <html class="no-js">
+<!--CERCARE flask xsrf  PER ROBE SU SICUREZZA DATI-->
 
 <head>
     <meta charset="utf-8">
@@ -18,15 +19,22 @@
     <link rel="stylesheet" href="../static/styles/main.css">
 
     <style>
-    <style> body {
-        padding: 0;
-        margin: 0;
-    }
-    html,
-    body,
-    #map {
-        height: 500px;
-    }
+        <style> body {
+            padding: 0;
+            margin: 0;
+        }      
+        html,
+        body,
+        #map {
+            height: 500px;
+        }
+        #menu-quartieri{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+
+            z-index:20;
+        }
     </style>
     <!-- endbuild -->
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
@@ -36,77 +44,92 @@
 <body>
     <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+            <![endif]-->
+
+            <form method="POST" action="/save_json">
+
+                <div class="container">
+                    <div class="header">
+                        <ul class="nav nav-pills pull-right">
+                            <li class="active"><a href="#">Home</a>
+                            </li>
+                        </ul>
+                        <h3 class="text-muted">pj porting</h3>
+                    </div>
+
+                    <div class="row marketing">
+
+                        <div id="map" class="col-lg-12">
+                            <!-- Menù con i quartieri -->
+                            <nav class='menu-quartieri menu-ui'>
+                              <a href='#' id='Lambrate' class='' >Lambrate</a>
+                              <a href='#' id='Barona' class='' >Barona</a>
+                          </nav>                          
+                    </div>
+
+                    <div id="comandi" class="col-lg-12">
+                        <div>
+                            <label>Interaction type:</label>
+                            <label>draw</label>
+                            <input type="radio" id="interaction_type_draw" name="interaction_type" value="draw" checked>
+
+                        </div>
+                        <div>
+                            <label>Geometry type</label>
+                            <span>Sceglilo direttamente dalla mappa, frescone!</span>
+                        </div>
+                        <div>
+                            <label>Data type</label>
+                            <select id="data_type" name="type">
+                                <option value="GeoJSON" selected>GeoJSON</option>
+                            </select>
+                            <span>e vedi d'accontentarti, oh bischero.</span>
+                        </div>
+                        <div id="delete" style="text-decoration:underline;cursor:pointer">
+                            Delete all features
+                        </div>
+                        <label>Data:</label>
+                        <textarea id="data" name="data" rows="12" style="width:100%"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Salvo Disegno su db-->
+            <div class="row ">
+                <div class='col-md-12 text-center' style='text-align:center;'>
+                    <input type="submit" name="salva-disegno" value="Salva il disegno" id="save-drawing" class="btn btn-success btn-lg btn-block">
+                </div>
+            </div>
+
+        </form>
 
 
-    <div class="container">
-        <div class="header">
-            <ul class="nav nav-pills pull-right">
-                <li class="active"><a href="#">Home</a>
-                </li>
-            </ul>
-            <h3 class="text-muted">pj porting</h3>
-        </div>
 
+
+        <!-- Export Data -->
         <div class="row marketing">
-            <div id="map" class="col-lg-12"></div>
-            <div id="comandi" class="col-lg-12">
-                <div>
-                    <label>Interaction type:</label>
-                    <label>draw</label>
-                    <input type="radio" id="interaction_type_draw" name="interaction_type" value="draw" checked>
-
+            <h3 style='text-align:center;'>Esporta:</h3>
+            <!-- esporto txt tramite js-->
+            <form method="POST">
+                <div class='col-md-6 col-xs-6' style='text-align:center;'>
+                    <input type="button" name="esporta-file-txt" value="Esporta .txt" id="export-txt" class="btn btn-primary btn-lg " onclick="saveAs(stampoSuFile(drawnItems.toGeoJSON()), 'nome_file.txt');">
                 </div>
-                <div>
-                    <label>Geometry type</label>
-                    <span>Sceglilo direttamente dalla mappa, frescone!</span>
-                </div>
-                <div>
-                    <label>Data type</label>
-                    <select id="data_type" name="type">
-                        <option value="GeoJSON" selected>GeoJSON</option>
-                    </select>
-                    <span>e vedi d'accontentarti, oh bischero.</span>
-                </div>
-                <div id="delete" style="text-decoration:underline;cursor:pointer">
-                    Delete all features
-                </div>
-                <label>Data:</label>
-                <textarea id="data" name="entry1001" rows="12" style="width:100%"></textarea>
-            </div>
-        </div>
-    </div>
-    <!-- Salvo Disegno su db-->
-    <div class="row ">
-        <div class='col-md-12 text-center' style='text-align:center;'>
-            <input type="button" name="salva-disegno" value="Salva il disegno" id="save-drawing" class="btn btn-success btn-lg btn-block">
-        </div>
-    </div>
-    <!-- Export Data -->
-    <div class="row marketing">
-        <h3 style='text-align:center;'>Esporta:</h3>
-        <!-- esporto txt tramite js-->
-        <form method="POST">
-            <div class='col-md-6 col-xs-6' style='text-align:center;'>
-                <input type="button" name="esporta-file-txt" value="Esporta .txt" id="export-txt" class="btn btn-primary btn-lg " onclick="saveAs(stampoSuFile(drawnItems.toGeoJSON()), 'nome_file.txt');">
-            </div>
-        <!-- esporto json recuprendolo dal db tramite flask-->
-            <div class='col-md-6 col-xs-6' style='text-align:center;'>
-                <input type="button" name="esporta-file-json" value="Esporta .json" class="btn btn-primary btn-lg " >
+                <!-- esporto json recuprendolo dal db tramite flask-->
+                <div class='col-md-6 col-xs-6' style='text-align:center;'>
+                    <input type="button" name="esporta-file-json" value="Esporta .json" class="btn btn-primary btn-lg " >
             <!-- <form action="/export-json" method="post">
                 <input type="submit" value="Signup"></input>
             </form>
             <form action="/prova" method="post">
                 <input type="submit" value="prova"></input>
             </form> -->
-            </div>
-        </form>
-    </div>
-    <!-- Footnote -->
-    <div class="row">
-        <div class='col-md-offset-3 col-md-6 col-md-offset-3 ' style='text-align:center;'>
-            <p>
-                <span style="font-weight:bold">NOTA:</span>Il bottone "esporta .json" serve solo per stampare facilmente da db il JSON, visto che quando lo schiacci flask esegue l'export dal db sqlite. In futuro andrà rimosso perchè prevedi di implementare una funzione di export da remoto, da lanciare a tuo piacimento per recuperare un dump del db ogniqualvolta desideri.</p>
+        </div>
+    </form>
+</div>
+<!-- Footnote -->
+<div class="row">
+    <div class='col-md-offset-3 col-md-6 col-md-offset-3 ' style='text-align:center;'>
+        <p>
+            <span style="font-weight:bold">NOTA:</span>Il bottone "esporta .json" serve solo per stampare facilmente da db il JSON, visto che quando lo schiacci flask esegue l'export dal db sqlite. In futuro andrà rimosso perchè prevedi di implementare una funzione di export da remoto, da lanciare a tuo piacimento per recuperare un dump del db ogniqualvolta desideri.</p>
         </div>
     </div>
 
@@ -114,6 +137,7 @@
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="../static/bower_components/jquery/dist/jquery.js"></script>
+
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -121,12 +145,13 @@
 
 
     <!-- build:js({app,.tmp}) scripts/main.js -->
-    <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js">
-    </script>
+    <!-- <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js">  </script> -->
+    <script src="../static/bower_components/Leaflet.draw/dist/leaflet.draw.js">  </script>
     <script src="../static/bower_components/filesaver/FileSaver.min.js"></script>
-    <script src="../static/scripts/main.js"></script>
+    <script src="../static/scripts/main.js">  </script>
 
     <!-- endbuild -->
+
 
 </body>
 

@@ -1,116 +1,153 @@
-        var map = L.map('map').setView([-41.2858, 174.78682], 14);
-        mapLink =
-            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-        L.tileLayer(
-            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; ' + mapLink + ' Contributors',
-                maxZoom: 18,
-            }).addTo(map);
+/*--------------------------------------------------------
+GENERAL MAP SETUP
+ --------------------------------------------------------*/
 
-        var LeafIcon = L.Icon.extend({
-            options: {
-                shadowUrl: 'http://leafletjs.com/docs/images/leaf-shadow.png',
-                iconSize: [38, 95],
-                shadowSize: [50, 64],
-                iconAnchor: [22, 94],
-                shadowAnchor: [4, 62],
-                popupAnchor: [-3, -76]
+// Dichiaro ed assegno la mappa + opzioni
+var map = L.map('map').setView([45.468874, 9.187517], 14);
+// Attribution Link
+mapLink =
+'<a href="http://openstreetmap.org">OpenStreetMap</a>';
+// BaseLayer 
+L.tileLayer(
+    'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; ' + mapLink + ' Contributors',
+        maxZoom: 18,
+    }).addTo(map);
+
+// Overlay Layers for each polygon Neighborhood
+var drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+
+/*--------------------------------------------------------
+UTILITIES FUNCTIONS
+ --------------------------------------------------------*/
+
+/**
+ * [stampoSuFile Trasforma un'input JSON in txt semplice]
+ * @param  {[type]} a [JSON in input]
+ * @return {[type]}   [un oggetto Blob (txt in questo caso)]
+ */
+ function stampoSuFile(a) {
+    // var a = drawnItems.toGeoJSON();
+    shape_to_txt = JSON.stringify(a, null, '\t')
+    var blob = new Blob([shape_to_txt], {
+        type: "text/plain;charset=utf-8"
+    });
+    return blob;
+};
+/**
+ * [isInArray Controlla se un valore è presente in un array]
+ * @param  {qualisasi}  value valore da controllare
+ * @param  {array}  array l'array in cui controllare la presenza del valore
+ * @return {Boolean}       the function returns a boolean in case of absence/presence of a value.
+ * function from https://stackoverflow.com/users/304588/richard-neil-ilagan
+ */
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
+
+/*--------------------------------------------------------
+NEIGHBORHOODS SETUP
+ --------------------------------------------------------*/
+var optionsLambrate = {
+    showArea: true,
+    shapeOptions: {
+        name: "lambrate",
+        stroke: true,
+        color: '#000000',
+        weight: 2,
+        opacity: 0.8,
+        fill: true,
+        fillColor: null, //same as color by default
+        fillOpacity: 0.2,
+        clickable: true
+    }
+};
+var optionsBarona = {    
+    showArea: true,
+    shapeOptions: {
+        name: "barona",
+        stroke: true,
+        color: 'yellow',
+        weight: 2,
+        opacity: 0.8,
+        fill: true,
+        fillColor: null, //same as color by default
+        fillOpacity: 0.2,
+        clickable: true
+
+    }
+};
+
+
+
+// Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
+$('#Lambrate').on('click', function  () {
+    var polyDrawerLambrate = new L.Draw.Polygon(map, optionsLambrate).enable()    
+});
+$('#Barona').on('click', function  () {
+    var polyDrawerBarona = new L.Draw.Polygon(map, optionsBarona).enable()   
+});
+
+
+// array storing the names of already drawn neighborhoods
+disegnati = [];
+
+
+// Vecchio codice
+// map.on('draw:created' , function(e) {
+//     var type = e.layerType;
+//     var layer = e.layer;
+//     nomeQuartiere = layer.options.name    
+//     if ( !isInArray(nomeQuartiere,disegnati)){
+//         disegnati.push(nomeQuartiere);            
+//     }else{
+//         for (var obj in drawnItems._layers){
+//             if (drawnItems._layers[obj].options.name === nomeQuartiere){
+//                 drawnItems.removeLayer(drawnItems._layers[obj])
+//             }
+//         }
+//     }
+// console.log("ddd");
+// drawnItems.addLayer(layer);
+// });
+
+
+
+
+map.on('draw:created' , function(e) {    
+    // Cancello i valori precedenti nell'area di testo
+    $('#data').val(' ');
+    var type = e.layerType;
+    layer = e.layer;
+    // assegno il nome del quartiere
+    nomeQuartiere = layer.options.name       
+    // cancello la vecchia forma se ne disegno una nuova
+    // in modo da averne sempre una e solo una per ogni quartiere
+    if ( !isInArray(nomeQuartiere,disegnati)){
+            disegnati.push(nomeQuartiere);            
+        }else{
+            for (var obj in drawnItems._layers){
+                if (drawnItems._layers[obj].options.name === nomeQuartiere){
+                    drawnItems.removeLayer(drawnItems._layers[obj])
+                }
             }
-        });
-
-        var greenIcon = new LeafIcon({
-            iconUrl: 'http://leafletjs.com/docs/images/leaf-green.png'
-        });
-
-
-        var drawnItems = new L.FeatureGroup();
-        map.addLayer(drawnItems);
-
-        var drawControl = new L.Control.Draw({
-            position: 'topright',
-            draw: {
-                polygon: {
-                    shapeOptions: {
-                        color: 'purple'
-                    },
-                    allowIntersection: false,
-                    drawError: {
-                        color: 'orange',
-                        timeout: 1000
-                    },
-                    showArea: true,
-                    metric: false,
-                    repeatMode: true
-                },
-                polyline: {
-                    shapeOptions: {
-                        color: 'red'
-                    },
-                },
-                rect: {
-                    shapeOptions: {
-                        color: 'green'
-                    },
-                },
-                circle: {
-                    shapeOptions: {
-                        color: 'steelblue'
-                    },
-                },
-                marker: {
-                    icon: greenIcon
-                },
-            },
-            edit: {
-                featureGroup: drawnItems
-            }
-        });
-        map.addControl(drawControl);
-
-        function stampoSuFile(a) {
-            // var a = drawnItems.toGeoJSON();
-            shape_to_txt = JSON.stringify(a, null, '\t')
-            var blob = new Blob([shape_to_txt], {
-                type: "text/plain;charset=utf-8"
-            });
-            return blob;
-        };
-
-        // var oggetti = [];
-        map.on('draw:created', function(e) {
-            // Cancello i valori precedenti nell'area di testo
-            $('#data').val(' ');
-            var type = e.layerType,
-                layer = e.layer;
-            // console.log(layer);
-            // console.log('layer e: ' + layer);
-
-            if (type === 'marker') {
-                layer.bindPopup('A popup!');
-            }
-
-            drawnItems.addLayer(layer);
-
-            // Converto ogni layer in geoJSON
-            var shape = layer.toGeoJSON()
-
-            // Preparo l'oggtto per la stampa a video
-            var shape_to_print = drawnItems.toGeoJSON();
-            // Stampo nell'area di testo gli oggetti correntemente generati 
-            $('#data').val(JSON.stringify(shape_to_print, null, '\t'));
-
-            // a = drawnItems.toGeoJSON();
-            stampoSuFile(drawnItems.toGeoJSON());
-
-        });
-
-        // Preparo l'oggetto per la stampa su file     
-        // console.log(drawnItems);    
-        stampoSuFile(drawnItems.toGeoJSON());
+        }
+    // Questo è il passaggio in cui i poligoni disegnati vengono aggiunti al layer di overlay.
+    drawnItems.addLayer(layer);
+    // Fin qui i comandi per disegnare su mappa
+    // Qui sotto invece i passaggi per stampare a video/su txt
+    // Converto ogni layer in geoJSON
+    var shape = layer.toGeoJSON()
+    // Preparo l'oggtto per la stampa a video
+    var shape_to_print = drawnItems.toGeoJSON();
+    // Stampo nell'area di testo gli oggetti correntemente generati 
+    $('#data').val(JSON.stringify(shape_to_print, null, '\t'));
+    // a = drawnItems.toGeoJSON();
+    // Preparo l'oggetto per la stampa su file
+    stampoSuFile(drawnItems.toGeoJSON());
+});
 
 
-
-
-
-        // Preparo l'oggetto per il db
-        // TODO
+// Preparo l'oggetto per il db
+// TODO: mi sembra che questa parte sia stata fatta con FLask. Da controllare. Sicuramente è da implementare con Postgres e non SQLite
