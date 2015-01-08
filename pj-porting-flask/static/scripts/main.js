@@ -108,6 +108,8 @@ $('#Barona').on('click', function  () {
 });
 
 // Event Handler for re-drawing the shapes
+// $(".menu-ui a").slideUp();
+//slide down the link list below the h3 clicked - only if its closed
 $('#redraw').click(function(){
     // var $this = $(this);    
     var $this = $(this);
@@ -115,9 +117,8 @@ $('#redraw').click(function(){
     if(!$this.hasClass('attivo')){
         // redraw functionality enabled
         editor.enable();
-        // chenges confirmation button down
-        // $('#redraw-done').slideDown('fast');
-        $('#redraw-done').toggleClass('expanded');
+        // changes confirmation button down
+        $('#redraw-done').slideDown('fast');
         // change button class
         $this.addClass('attivo')
     };
@@ -127,8 +128,7 @@ $('#redraw-done').click(function() {
     // redraw functionality disabled
     editor.disable();
     // changes confirmation button up
-    // $this.slideUp('fast');
-    $('#redraw-done').toggleClass('expanded');
+    $this.slideUp('fast');
     // change button class
     $('#redraw').removeClass('attivo');
 

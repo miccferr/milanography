@@ -66,6 +66,11 @@ body {
 
 
 /*----------- Menù tipo mapbox---------------*/
+ul
+{
+    list-style-type: none;
+    padding:0; margin:0;
+}
 .menu-ui {
   /*background:#fff;*/
   position:absolute;
@@ -108,21 +113,19 @@ body {
 #Lambrate {background: #fff ; width:120px;}
 #Barona {background: #fff ;  width:120px; }
 #redraw {background: #fff ;  width:120px; }
-#redraw-done {background: #46DE46 ; display: none; width:120px; position: absolute;}
-#delete {background: #fff ;  width:120px;  }
-#delete-done {background: #46DE46 ; display: none;  width:120px; }
+/*#redraw-done {background: #46DE46 ; display: none; width:120px; position: absolute;}*/
+#delete {background: #fff ;  width:120px; margin-top: 0px; }
+/*#delete-done {background: #46DE46 ; display: none;  width:120px; position: absolute;}*/
 
-.expanded #redraw-done {
-    height: 170% ;
-    
+/*Lets hide the non active LIs by default*/
+
+.menu-ui ul ul .stronzi {
+  display: none;
 }
-.expanded #redraw {
-        width: 30%;
-    opacity:1;
-
+/*.stronzi.active {
+  display: block;
 }
-
-
+*/
 /*---------- Responsive:------------
  Portrait tablets and up */
 @media screen and (min-width: 768px) {
