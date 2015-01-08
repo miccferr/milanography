@@ -113,14 +113,14 @@ $('#redraw').click(function(){
         // abilito redraw
         editor.enable();
         // faccio scendere bottone
-        $('#done').slideToggle('slow');
+        $('#done').slideDown('fast');
         $this.addClass('attivo');
     };
 });
 $('#done').click(function() {
     var $this = $(this);
     editor.disable();
-    $this.slideToggle('slow');
+    $this.slideUp('fast');
     $('#redraw').removeClass('attivo');
     
 });

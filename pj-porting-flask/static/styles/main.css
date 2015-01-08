@@ -65,13 +65,13 @@ body {
 
 /*Menù tipo mapbox*/
 .menu-ui {
-  background:#fff;
+  /*background:#fff;*/
   position:absolute;
   top:200px;right:10px;
   z-index:1;
   border-radius:3px;
   width:120px;
-  border:1px solid rgba(0,0,0,0.4);
+  /*border:1px solid rgba(0,0,0,0.4);*/
 }
 .menu-ui a {
     font-size:13px;
@@ -80,9 +80,10 @@ body {
     margin:0;padding:0;
     padding:5px 10px;
     text-decoration:none;
-    border-bottom:1px solid rgba(0,0,0,0.25);
+    /*border-bottom:1px solid rgba(0,0,0,0.25);*/
     text-align:center;
 }
+
 .menu-ui a:first-child {
   border-radius:3px 3px 0 0;
 }
@@ -90,6 +91,18 @@ body {
   border:none;
   border-radius:0 0 3px 3px;
 }
+
+/*.menu-ui a:last-child {
+  border:none;
+  display: none;
+  width: 120px;
+  background: #46DE46;
+  border-radius:0 0 3px 3px;
+}*/
+/*.menu-ui a:last-child:hover {
+  background:#46DE46;
+  color:#fff;
+}*/
 .menu-ui a:hover {
   background:#f8f8f8;
   color:#404040;
@@ -101,6 +114,12 @@ body {
 .menu-ui a.active:hover {
     background:#3074a4;
 }
+
+#Lambrate {background: #fff ; width:120px}
+#Barona {background: #fff ;  width:120px}
+#redraw {background: #fff ;  width:120px}
+#done {background: #46DE46 ; display: none; position: absolute; width:120px}
+
 
 /* ---- Hover Effects -----*/
 /* Sweep To Left */
@@ -166,7 +185,23 @@ body {
 }
 .green-background a.active:hover {
     background:#46DE46;
-}}
+}
+
+/*bottone done*/
+/* #done {
+  background: #46DE46;
+  color: #fff ;
+  overflow: hidden;
+  display:none;
+  top:200px;right:10px;
+  z-index:1;
+  border-radius:3px;
+  width:120px;
+
+border:1px solid rgba(0,0,0,0.4);
+
+}
+*/
 
 /*---------- Responsive:------------
  Portrait tablets and up */

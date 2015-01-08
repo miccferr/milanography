@@ -16,10 +16,11 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
-    <link rel="stylesheet" href="../static/styles/main.css">
+    
 
     <style>
-        <style> body {
+        <style> 
+        body {
             padding: 0;
             margin: 0;
         }      
@@ -28,8 +29,9 @@
         #map {
             height: 500px;
         }
-       
+
     </style>
+    <link rel="stylesheet" href="../static/styles/main.css">
     <!-- endbuild -->
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
@@ -56,19 +58,20 @@
                         <div id="map" class="col-lg-12">
                             <!-- Menù con i quartieri -->
                             <nav class='menu-ui'>
-                              <a href='#' id='Lambrate' class='' >Lambrate</a>
-                              <a href='#' id='Barona' class='' >Barona</a>
-                              <a href='#' id='redraw' class='' >Redraw</a>
-                              <!-- <a href='#' id='redraw' class='hvr-sweep-to-left' >Redraw</a> -->
-                              <a href='#' id='done' class='' style='background: #5FFF27 ; display:none' >Done!</a>
-                              <!-- <a href='#' id='redraw' class='' >Redraw</a> -->
-                     
-                          </nav>                          
-                    </div>
+                              <!-- <a href='#' id='Lambrate' class='' >Lambrate</a> -->
+                              <a href='#'  id='Lambrate' >Lambrate</a>
+                              <a href='#'  id='Barona' >Barona</a>
+                              <a href='#' id='redraw'>Redraw</a>
+                              <!-- <a href='#' id='done' style='background: #46DE46 ; display: none; width:120px'>Done!</a> -->
+                              <a href='#' id='done' >Done!</a>
+                              
+                            </nav>                          
 
+                    </div>
                     <div id="comandi" class="col-lg-12">
                         <div>
                             <label>Interaction type:</label>
+                            <span id="done">asdasda</span>
                             <label>draw</label>
                             <input type="radio" id="interaction_type_draw" name="interaction_type" value="draw" checked>
 
