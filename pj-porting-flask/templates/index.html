@@ -28,13 +28,7 @@
         #map {
             height: 500px;
         }
-        #menu-quartieri{
-            position: absolute;
-            top: 20px;
-            right: 20px;
-
-            z-index:20;
-        }
+       
     </style>
     <!-- endbuild -->
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
@@ -61,9 +55,14 @@
 
                         <div id="map" class="col-lg-12">
                             <!-- Menù con i quartieri -->
-                            <nav class='menu-quartieri menu-ui'>
+                            <nav class='menu-ui'>
                               <a href='#' id='Lambrate' class='' >Lambrate</a>
                               <a href='#' id='Barona' class='' >Barona</a>
+                              <a href='#' id='redraw' class='' >Redraw</a>
+                              <!-- <a href='#' id='redraw' class='hvr-sweep-to-left' >Redraw</a> -->
+                              <a href='#' id='done' class='' style='background: #5FFF27 ; display:none' >Done!</a>
+                              <!-- <a href='#' id='redraw' class='' >Redraw</a> -->
+                     
                           </nav>                          
                     </div>
 
