@@ -17,18 +17,21 @@ L.tileLayer(
 // Overlay Layers for each polygon Neighborhood
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
-// Initialise the draw control and pass it the FeatureGroup of editable layers
+// Initialize the draw control and pass it the FeatureGroup of editable layers
 // but do not add it to the map yet
 var drawControl = new L.Control.Draw({
     edit: {
         featureGroup: drawnItems
     }
 });
-// creo oggetto editor
+// Editing object initialization
 var editor = new L.EditToolbar.Edit(map, {
-                featureGroup: drawControl.options.featureGroup,
                 featureGroup: drawnItems,
                 selectedPathOptions: drawControl.options.edit.selectedPathOptions
+            });
+// Remover object initialization
+var remover = new L.EditToolbar.Delete(map, {
+                featureGroup: drawnItems,
             });
 
 /*--------------------------------------------------------
@@ -93,9 +96,8 @@ var optionsBarona = {
 };
 
 
-
 /*-----------------------------------------------------------------------------
-                                       CICCIA
+                                       EVENT HANDLERS
 -----------------------------------------------------------------------------*/
 // Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
 $('#Lambrate').on('click', function  () {
@@ -104,79 +106,65 @@ $('#Lambrate').on('click', function  () {
 $('#Barona').on('click', function  () {
     var polyDrawerBarona = new L.Draw.Polygon(map, optionsBarona).enable()   
 });
+
 // Event Handler for re-drawing the shapes
 $('#redraw').click(function(){
     // var $this = $(this);    
     var $this = $(this);
     // $this.addClass('attivo');
     if(!$this.hasClass('attivo')){
-        // abilito redraw
+        // redraw functionality enabled
         editor.enable();
-        // faccio scendere bottone
-        $('#done').slideDown('fast');
+        // chenges confirmation button down
+        // $('#redraw-done').slideDown('fast');
+        $('#redraw-done').toggleClass('expanded');
+        // change button class
+        $this.addClass('attivo')
+    };
+});
+$('#redraw-done').click(function() {
+    var $this = $(this);
+    // redraw functionality disabled
+    editor.disable();
+    // changes confirmation button up
+    // $this.slideUp('fast');
+    $('#redraw-done').toggleClass('expanded');
+    // change button class
+    $('#redraw').removeClass('attivo');
+
+    
+});
+
+// $("#editButton").click(function()
+// {
+//     $('div').toggleClass('expanded');
+// });
+
+
+// Event Handler for deleting the shapes
+$('#delete').click(function(){
+    // var $this = $(this);    
+    var $this = $(this);
+    // $this.addClass('attivo');
+    if(!$this.hasClass('attivo')){
+        // redraw functionality enabled
+        remover.enable();
+        // chenges confirmation button down
+        $('#delete-done').slideDown('fast');
+        // change button class
         $this.addClass('attivo');
     };
 });
-$('#done').click(function() {
+$('#delete-done').click(function() {
     var $this = $(this);
-    editor.disable();
+    // redraw functionality disabled
+    remover.disable();
+    // changes confirmation button up
     $this.slideUp('fast');
-    $('#redraw').removeClass('attivo');
+    // change button class
+    $('#delete').removeClass('attivo');
     
 });
-
-
-
-    // $('#redraw').click(function(){
-    //     var $this = $(this);
-    //     $this.toggleClass('done');
-    //     if($this.hasClass('done')){
-    //         // abilito redraw
-    //         editor.enable();
-    //         // cambio sfondo & cambio testo
-    //         // $(this).toggleClass("hvr-sweep-to-left"); 
-    //         console.log("asdas");
-    //         $this.toggleClass('menu-ui a:hover').addClass('green-background').text('Done!');         
-            
-    //     } else {
-    //         // disabilito redraw
-    //         editor.disable();
-    //         // cambio sfondo & cambio testo
-    //         $this.removeClass('green-background').text('Redraw');
-    //     }
-    // });
-
-// Vecchio tentativo
-// $('#redraw').on('click', function  () {
-//     // if ( $(this).is( ":redraw" ) ){
-//         // redraw
-//         // slide in 
-//     // }else{}
-//     // 
-//     // $(this).attr('disabled','disabled');
-//      editor = new L.EditToolbar.Edit(map, {
-//                 // featureGroup: drawControl.options.featureGroup,
-//                 featureGroup: drawnItems,
-//                 selectedPathOptions: drawControl.options.edit.selectedPathOptions
-//             }).enable()
-//     console.log(editor);
-//     // dir = !dir;
-//     // r = dir? -280 : 0;
-//     // $(this).animate({width:'toggle'},118);
-    
-
-//     // if($(this).val() != '') {
-//     //        $('input[type="submit"]').removeAttr('disabled');
-//     //     }
-//     // $(this).toggleClass("yy");
-//     $('#done').slideToggle('slow');
-//     editor.disable()
-//     $('#done').click(function() {
-//         console.log('salvo tutto');
-//         $(this).hide();
-//     }); 
-// });
-
 
 // array storing the names of already drawn neighborhoods
 disegnati = [];
