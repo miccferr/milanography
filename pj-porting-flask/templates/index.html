@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>pj porting</title>
+    <title>Milanography</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
@@ -16,29 +16,26 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
-    
-
     <style>
         <style> 
-        body {
-            padding: 0;
-            margin: 0;
-        }      
-        html,
-        body,
-        #map {
-            height: 500px;
-            
-        }
+            body {
+                padding: 0;
+                margin: 0;
+            }      
+            html,
+            body,
+            #map {
+                height: 500px;
 
-    </style>
-    <link rel="stylesheet" href="../static/styles/main.css">
-    <!-- endbuild -->
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
-</head>
+            }
 
-<body>
+        </style>
+        <link rel="stylesheet" href="../static/styles/main.css">
+        <!-- endbuild -->
+        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
+    </head>
+
+    <body>
     <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
@@ -47,57 +44,34 @@
 
                 <div class="container">
                     <div class="header">
-                        <ul class="nav nav-pills pull-right">
-                            <li class="active"><a href="#">Home</a>
-                            </li>
-                        </ul>
-                        <h3 class="text-muted">pj porting</h3>
+                        <h3 class="text-muted">Milanography</h3>
                     </div>
-
                     <div class="row marketing">
-
+                    <!-- Mappa -->
                         <div id="map" class="col-lg-12">
-                            <div class='menu-ui' data-role="collapsible" data-mini="true">                                
-                                <ul >
-                                  <li><a href='#'  id='Lambrate' >Lambrate</a></li>
-                                  <li><a href='#'  id='Barona' >Barona</a></li>
-                                  <ul>
-                                    <li><a href='#' id='redraw'>Redraw</a></li>                              
-                                    <li><a href='#' id='redraw-done' class="stronzi" >Done!</a></li>
-                                  </ul>
-                                  <ul>
-                                        <li><a href='#' id='delete'>Delete</a></li>                              
-                                        <li><a href='#' id='delete-done' >Done!</a></li>
-                                  </ul>
-                                  
-                                </ul>
-                            </div>
-
-                            <!-- Menù con i quartieri -->
-                            <!-- <nav class='menu-ui'>
-                              
-                              <a href='#'  id='Lambrate' >Lambrate</a>
-                              <a href='#'  id='Barona' >Barona</a>
-                              <a href='#' id='redraw'>Redraw</a>                              
-                              <a href='#' id='redraw-done' >Done!</a>
-                              <a href='#' id='delete'>Delete</a>                              
-                              <a href='#' id='delete-done' >Done!</a>
-                              
-                            </nav>                          
- -->
-                    </div>
-                    <div id="comandi" class="col-lg-12">
+                            <nav class='menu-ui'>
+                              <a id='Lambrate' href='#' >Lambrate</a>
+                              <a id='Niguarda' href='#'   >Niguarda</a>
+                              <a id='redraw' href='#' class="modificatori"  >Redraw</a>
+                              <h3 id='redraw-done' class="modificatori">Done!</h3>
+                              <a id='delete' href='#' class="modificatori">Delete</a> 
+                              <h3 id='delete-done' class="modificatori">Done!</h3>
+                          </nav>
+                      </div>
+                      <!-- Interaction Type -->
+                      <div id="comandi" class="col-lg-12">
                         <div>
                             <label>Interaction type:</label>
-                            <span id="done">asdasda</span>
+                            <span id="done"></span>
                             <label>draw</label>
                             <input type="radio" id="interaction_type_draw" name="interaction_type" value="draw" checked>
-
                         </div>
+                        <!-- Geometry Type --> 
                         <div>
                             <label>Geometry type</label>
                             <span>Sceglilo direttamente dalla mappa, frescone!</span>
                         </div>
+                        <!-- Data Type -->
                         <div>
                             <label>Data type</label>
                             <select id="data_type" name="type">
@@ -105,15 +79,17 @@
                             </select>
                             <span>e vedi d'accontentarti, oh bischero.</span>
                         </div>
+                        <!-- Big Red Button -->
                         <div id="delete" style="text-decoration:underline;cursor:pointer">
                             Delete all features
                         </div>
+                        <!-- Area di stampa a video -->
                         <label>Data:</label>
                         <textarea id="data" name="data" rows="12" style="width:100%"></textarea>
                     </div>
                 </div>
             </div>
-            <!-- Salvo Disegno su db-->
+            <!-- Bottone per salve disegno su db-->
             <div class="row ">
                 <div class='col-md-12 text-center' style='text-align:center;'>
                     <input type="submit" name="salva-disegno" value="Salva il disegno" id="save-drawing" class="btn btn-success btn-lg btn-block">
@@ -166,6 +142,8 @@
 
     <!-- build:js({app,.tmp}) scripts/main.js -->
     <!-- <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js">  </script> -->
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
+        <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
     <script src="../static/bower_components/Leaflet.draw/dist/leaflet.draw.js">  </script>
     <script src="../static/bower_components/filesaver/FileSaver.min.js"></script>
     <script src="../static/scripts/main.js">  </script>

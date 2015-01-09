@@ -1,18 +1,30 @@
 /*--------------------------------------------------------
 GENERAL MAP SETUP
 --------------------------------------------------------*/
+// vecchie opzioni
+// // // Dichiaro ed assegno la mappa + opzioni
+// var map = L.map('map').setView([45.468874, 9.187517], 14);
+// // Attribution Link
+// var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+// // BaseLayer 
+// L.tileLayer(
+//     'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//         attribution: '&copy; ' + mapLink + ' Contributors',
+//         maxZoom: 18,
+//     }).addTo(map);
 
-// Dichiaro ed assegno la mappa + opzioni
-var map = L.map('map').setView([45.468874, 9.187517], 14);
-// Attribution Link
-mapLink =
-'<a href="http://openstreetmap.org">OpenStreetMap</a>';
-// BaseLayer 
-L.tileLayer(
-    'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; ' + mapLink + ' Contributors',
-        maxZoom: 18,
-    }).addTo(map);
+
+// mio token mapbox
+L.mapbox.accessToken = 'pk.eyJ1IjoiY2FydG9taWtlIiwiYSI6IjZfYkZqajAifQ.d6uTFMLHEgrjpFmD_e9kRQ';
+// map declaration
+var map = L.mapbox.map('map');
+// baseLayer declaration % initialization
+var stamenLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+}).addTo(map);
+// let's go!
+map.setView([45.468874, 9.187517], 12);
+
 
 // Overlay Layers for each polygon Neighborhood
 var drawnItems = new L.FeatureGroup();
@@ -70,7 +82,7 @@ var optionsLambrate = {
     shapeOptions: {
         name: "lambrate",
         stroke: true,
-        color: '#000000',
+        color: '#FC9D9A',
         weight: 2,
         opacity: 0.8,
         fill: true,
@@ -79,12 +91,12 @@ var optionsLambrate = {
         clickable: true
     }
 };
-var optionsBarona = {    
+var optionsNiguarda = {    
     showArea: true,
     shapeOptions: {
-        name: "barona",
+        name: "Niguarda",
         stroke: true,
-        color: 'yellow',
+        color: '#C8C8A9',
         weight: 2,
         opacity: 0.8,
         fill: true,
@@ -103,8 +115,8 @@ var optionsBarona = {
 $('#Lambrate').on('click', function  () {
     var polyDrawerLambrate = new L.Draw.Polygon(map, optionsLambrate).enable()    
 });
-$('#Barona').on('click', function  () {
-    var polyDrawerBarona = new L.Draw.Polygon(map, optionsBarona).enable()   
+$('#Niguarda').on('click', function  () {
+    var polyDrawerNiguarda = new L.Draw.Polygon(map, optionsNiguarda).enable()   
 });
 
 // Event Handler for re-drawing the shapes
