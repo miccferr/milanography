@@ -24,4 +24,32 @@ Why not?
 # How
 Probably ~~GeoDjango~~ Flask + Postgres and some Leaflet wizardy.
 
+***
+***
+***
+
+## Self-notes:
+
+###Python & Flask & venvs
+- Installed python virtual environment  
+- Activate it 
+
+		source venv/bin/activate
+
+- Installed packages Flask + Psycopg2
+
+		pip install Flask
+		pip install psycopg2
+
+- Run Flask on pyscript
+
+		python app.py
+		
+- Once done, deactivate it
+	
+		deactivate
+
+
+
+
 
