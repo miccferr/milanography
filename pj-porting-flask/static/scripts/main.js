@@ -15,7 +15,7 @@ GENERAL MAP SETUP
 
 
 // mio token mapbox
-L.mapbox.accessToken = 'pk.eyJ1IjoiY2FydG9taWtlIiwiYSI6IjZfYkZqajAifQ.d6uTFMLHEgrjpFmD_e9kRQ';
+L.mapbox.accessToken = 'your aPI';
 // map declaration
 var map = L.mapbox.map('map');
 // baseLayer declaration % initialization
