@@ -2,28 +2,29 @@
 GENERAL MAP SETUP
 --------------------------------------------------------*/
 // vecchie opzioni
-// // // Dichiaro ed assegno la mappa + opzioni
-// var map = L.map('map').setView([45.468874, 9.187517], 14);
-// // Attribution Link
-// var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-// // BaseLayer 
-// L.tileLayer(
-//     'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//         attribution: '&copy; ' + mapLink + ' Contributors',
-//         maxZoom: 18,
-//     }).addTo(map);
+// // Dichiaro ed assegno la mappa + opzioni
+var map = L.map('map').setView([45.468874, 9.187517], 14);
+// Attribution Link
+var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+// BaseLayer 
+L.tileLayer(
+    'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; ' + mapLink + ' Contributors',
+        maxZoom: 18,
+    }).addTo(map);
 
 
-// mio token mapbox
-L.mapbox.accessToken = 'your aPI';
-// map declaration
-var map = L.mapbox.map('map');
-// baseLayer declaration % initialization
-var stamenLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
-  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
-}).addTo(map);
-// let's go!
-map.setView([45.468874, 9.187517], 12);
+// // mio token mapbox
+// nota che se uso questo costruttore per qualche motivo perdo i tooltips del puntatore con scritto "clicca per editare ecc"
+// L.mapbox.accessToken = 'your aPI';
+// // map declaration
+// var map = L.mapbox.map('map');
+// // baseLayer declaration % initialization
+// var stamenLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+//   attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+// }).addTo(map);
+// // let's go!
+// map.setView([45.468874, 9.187517], 12);
 
 
 // Overlay Layers for each polygon Neighborhood
