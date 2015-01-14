@@ -51,6 +51,7 @@ Probably ~~GeoDjango~~ Flask + Postgres and some Leaflet wizardy.
 	
 		deactivate
 
+- **the latest dev brach is flask-postgres-dev**
 
 ### General app development
 There are currently two dev. versions of the app, supporting respectively Sqlite and Postgres. The final goal is to have a production version running on Postgres.
