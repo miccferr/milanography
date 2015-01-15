@@ -17,8 +17,10 @@ Next goal:
 - ~~Flask + Postgres (via SQLAlchemy) ,es [1](http://blog.y3xz.com/blog/2012/08/16/flask-and-postgresql-on-heroku), [2](https://www.youtube.com/watch?v=FD0p-opdyoE) **NEW:** take a look at [this](https://stackoverflow.com/questions/9901082/what-is-this-javascript-require) script.~~ 
 - Error Handling.
 - HTML clean-up: Form section needs to be fixed.
+- Front-End (Nice Layout/Colours Palette/UI-UX etc etc..).
 - Optional: add a input GET button to retrieve the already drawn shapes, es [1](https://stackoverflow.com/questions/19794695/flask-python-buttons), [2](https://stackoverflow.com/questions/19796253/flask-python-buttons-not-responding).
-- Front-End ()Nice Layout/Colours Palette/UI-UX etc etc..).
+- Optional: Validate geoJSON via Programmatic Access to [geoJSON Lint](http://geojsonlint.com/)
+
 
 
 # Why
@@ -53,7 +55,8 @@ Probably ~~GeoDjango~~ Flask + Postgres and some Leaflet wizardy.
 	
 		deactivate
 
-- **the latest dev brach is flask-postgres-dev**
+- **the latest dev branch is flask-postgres-dev**
+- **the latest 'stable' branch is milanography-pre-production**
 
 ### General app development
 There are currently two dev. versions of the app, supporting respectively Sqlite and Postgres. The final goal is to have a production version running on Postgres.
