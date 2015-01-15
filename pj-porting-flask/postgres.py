@@ -6,11 +6,10 @@
 
 import psycopg2
 import sys
-from flask import Flask
+import json
+from flask import Flask, request, redirect, render_template, Response
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask import request, redirect
-from flask import render_template
-from flask.ext.sqlalchemy import SQLAlchemy
+from psycopg2.extras import RealDictCursor
 
 
 app = Flask(__name__)
@@ -19,7 +18,8 @@ db_conn = 'postgresql+psycopg2://mic:@localhost/milanography'
 app.config['SQLALCHEMY_DATABASE_URI'] = db_conn
 
 con = psycopg2.connect(database='milanography', user='mic') 
-cur = con.cursor()
+# cur = con.cursor()
+cur = con.cursor(cursor_factory=RealDictCursor)
 
 # is this part still useful?
 # @app.before_request
@@ -58,6 +58,22 @@ def print_prova():
     print "funziona!"
     return render_template('index.html')
 
+@app.route('/display_drawings', methods = ['GET'])
+def display():
+    print "Recupero disegni!"
+    cur.execute('SELECT * FROM shapes')
+    
+    cicci = json.dumps(cur.fetchall(), indent=2)
+    # return Response(json.dumps(motifs), mimetype='application/json')
+    # return Response(json.dumps(cur.fetchall(), indent=2), mimetype='application/json')
+
+    # print cicci
+    ciccio = 'sadasdas'
+    ciccio = cicci
+    # print risultati
+    return render_template('index.html', cicci= json.dumps(cur.fetchall(), indent=2))
+
 if __name__ == '__main__':
   # TODO remove debbuger in production!
   app.run(debug=True)
+
