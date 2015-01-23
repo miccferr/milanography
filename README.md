@@ -36,20 +36,27 @@ Probably ~~GeoDjango~~ Flask + Postgres and some Leaflet wizardy.
 ## Notes to Self:
 
 ###Python & Flask & venvs
-- Instal python virtual environment  (just once)
-- Activate it 
 
-		source venv/bin/activate
-
-- Installed packages Flask + Psycopg2
+####First time user:
+- Install python virtual environment  
+- Install packages Flask + Psycopg2
 
 		pip install Flask
 		pip install psycopg2
 		pip install Flask-SQLAlchemy
 
+####Every time
+- Activate venv 
+
+		source venv/bin/activate
+		
+- Cd the project folder
+
+		cd pj-porting-flask
+
 - Run Flask on pyscript
 
-		python app.py
+		python postgres.py
 		
 - Once done, deactivate it
 	
