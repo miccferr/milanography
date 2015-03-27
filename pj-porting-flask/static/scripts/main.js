@@ -2,17 +2,23 @@
 GENERAL MAP SETUP
 --------------------------------------------------------*/
 // vecchie opzioni
+// inizializzo ed assengno toner map
+var layerToner = new L.StamenTileLayer("toner");
 // // Dichiaro ed assegno la mappa + opzioni
 var map = L.map('map').setView([45.468874, 9.187517], 14);
 // Attribution Link
 var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 // BaseLayer 
-L.tileLayer(
+var OSM = L.tileLayer(
     'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; ' + mapLink + ' Contributors',
         maxZoom: 18,
     }).addTo(map);
 
+L.control.layers({
+    'OSM': OSM,
+    'Toner': layerToner
+}).addTo(map);
 
 // // mio token mapbox
 // nota che se uso questo costruttore per qualche motivo perdo i tooltips del puntatore con scritto "clicca per editare ecc"
