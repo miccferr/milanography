@@ -14,10 +14,10 @@ from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 
-db_conn = 'postgresql+psycopg2://mic:@localhost/milanography'
+db_conn = 'postgresql+psycopg2://mic:@localhost/test'
 app.config['SQLALCHEMY_DATABASE_URI'] = db_conn
 
-con = psycopg2.connect(database='milanography', user='mic') 
+con = psycopg2.connect(database='test', user='mic') 
 # cur = con.cursor()
 cur = con.cursor(cursor_factory=RealDictCursor)
 
