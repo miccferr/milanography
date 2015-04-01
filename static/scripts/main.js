@@ -84,47 +84,82 @@ UTILITIES FUNCTIONS
 /*--------------------------------------------------------
 NEIGHBORHOODS SETUP
 --------------------------------------------------------*/
-var optionsLambrate = {
-    showArea: true,
-    shapeOptions: {
-        name: "lambrate",
+function neighborhoodsColorOption (name, color) {
+    this.showArea = true;
+    this.shapeOptions = {
+        name : name,
         stroke: true,
-        color: '#FC9D9A',
+        color: color,
         weight: 2,
         opacity: 0.8,
         fill: true,
-        fillColor: null, //same as color by default
-        fillOpacity: 0.2,
-        clickable: true
-    }
-};
-var optionsNiguarda = {    
-    showArea: true,
-    shapeOptions: {
-        name: "Niguarda",
-        stroke: true,
-        color: '#C8C8A9',
-        weight: 2,
-        opacity: 0.8,
-        fill: true,
-        fillColor: null, //same as color by default
+        /*fillColor: null, //same as color by default*/
+        fillColor: color, //same as color by default
         fillOpacity: 0.2,
         clickable: true
 
-    }
-};
+    };
+}
+
+
+
+var optionsSS = {};
+optionsSS.CentroStorico = new neighborhoodsColorOption('Centro storico', '#9bcbd2')
+optionsSS.StazioneCentrale = new neighborhoodsColorOption('Stazione Centrale', '#a2d1d7')
+optionsSS.Gorla = new neighborhoodsColorOption('Gorla', '#aad7dd')
+optionsSS.Turro = new neighborhoodsColorOption('Turro', '#b1dce2')
+optionsSS.Greco = new neighborhoodsColorOption('Greco', '#f3f3db')
+optionsSS.Crescenzago = new neighborhoodsColorOption('Crescenzago', '#eef4dd')
+optionsSS.CittaStudi = new neighborhoodsColorOption('Città Studi', '#eaf4df')
+optionsSS.Lambrate = new neighborhoodsColorOption('Lambrate', '#e7f5e1')
+optionsSS.Venezia = new neighborhoodsColorOption('Venezia', '#e4f6e3')
+optionsSS.Vittoria = new neighborhoodsColorOption('Vittoria', '#e4f7e7')
+optionsSS.Forlanini = new neighborhoodsColorOption('Forlanini', '#6ebd93')
+optionsSS.Vigentino = new neighborhoodsColorOption('Vigentino', '#74c399')
+optionsSS.Chiaravalle = new neighborhoodsColorOption('Chiaravalle', '#7bca9f')
+optionsSS.Gratosoglio = new neighborhoodsColorOption('Gratosoglio', '#82cfa6')
+optionsSS.Barona  = new neighborhoodsColorOption('Barona ', '#d9aa8f')
+optionsSS.Lorenteggio = new neighborhoodsColorOption('Lorenteggio', '#dabc90')
+optionsSS.Baggio = new neighborhoodsColorOption('Baggio', '#dbce92')
+optionsSS.DeAngeli = new neighborhoodsColorOption('De Angeli', '#d9dc94')
+optionsSS.SanSiro = new neighborhoodsColorOption('San Siro', '#cadd95')
+optionsSS.Fiera = new neighborhoodsColorOption('Fiera', '#bbde97')
+optionsSS.Gallaratese = new neighborhoodsColorOption('Gallaratese', '#cd90bb')
+optionsSS.SanLeonardo = new neighborhoodsColorOption('San Leonardo', '#d297c2')
+optionsSS.QuartoOggiaro = new neighborhoodsColorOption('Quarto Oggiaro', '#d89ec8')
+optionsSS.StazioneGaribaldi = new neighborhoodsColorOption('Stazione Garibaldi', '#dda6cd')
+optionsSS.Niguarda = new neighborhoodsColorOption('Niguarda', '#c6e5ec')
+// var optionsLambrate = new neighborhoodsColorOption('Lambrate', '#FC9D9A');
+// var optionsNiguarda = new neighborhoodsColorOption('Niguarda', '#C8C8A9');
+
 
 
 /*-----------------------------------------------------------------------------
                                        EVENT HANDLERS
 -----------------------------------------------------------------------------*/
 // Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
-$('#Lambrate').on('click', function  () {
-    var polyDrawerLambrate = new L.Draw.Polygon(map, optionsLambrate).enable()    
+// $('#Lambrate').on('click', function  () {
+//     var polyDrawerLambrate = new L.Draw.Polygon(map, optionsLambrate).enable()    
+// });
+// $('#Niguarda').on('click', function  () {
+//     var polyDrawerNiguarda = new L.Draw.Polygon(map, optionsNiguarda).enable()   
+// });
+var polyDrawer = {};
+$('.btn-quartieri').on('click', function  () {
+    var opt = $(this).data('opt');
+    console.log(opt);
+    console.log(optionsSS[opt]);
+    polyDrawer[opt] = new L.Draw.Polygon(map, optionsSS[opt]).enable();
 });
-$('#Niguarda').on('click', function  () {
-    var polyDrawerNiguarda = new L.Draw.Polygon(map, optionsNiguarda).enable()   
-});
+
+$(window).load(function(){
+    $('.btn-quartieri').each(function(index, el) {
+     var opt = $(this).data('opt');
+     console.log(opt);
+    $(this).css('background',optionsSS[opt].shapeOptions.color);  
+
+    })
+})
 
 // Event Handler for re-drawing the shapes
 // $(".menu-ui a").slideUp();

@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-# SQL command to create a table 
-# CREATE TABLE shapes (id integer, data json);
-
 import psycopg2
 import sys
 import json
@@ -14,64 +10,40 @@ from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 
-db_conn = 'postgresql+psycopg2://mic:@localhost/test'
+db_conn = 'postgresql+psycopg2://YOUR-USERNAME:@localhost/YOUR-DATABASE'
 app.config['SQLALCHEMY_DATABASE_URI'] = db_conn
 
-con = psycopg2.connect(database='test', user='mic') 
-# cur = con.cursor()
+con = psycopg2.connect(database='YOUR-DATABASE', user='YOUR-USERNAME')
 cur = con.cursor(cursor_factory=RealDictCursor)
 
-# is this part still useful?
-# @app.before_request
-# def before_request():
-#     try:
-#         cur.connect()
-#         cur.execute('SELECT version(); ')          
-#         ver = cur.fetchone()
-#         print ver 
-#     except psycopg2.DatabaseError, e:
-#         print 'Error %s' % e    
-#         sys.exit(1) 
-
-# @app.teardown_request
-# def teardown_request(exception):      
-#     con.close()
-
-# good explanation  of the following code:
-# https://stackoverflow.com/questions/5342698/cursor-executeinsert-into-im-entry-test-entrym-values-p
 @app.route('/save_json', methods = ['POST'])
 def save_json():    
     data = request.form['data']
     if data != '':
-        cur.execute('INSERT INTO shapes (data) VALUES (%s)', [data])
+        cur.execute('INSERT INTO YOUR-DATABASE (YOUR-TABLE) VALUES (%s)', [data])
         con.commit() 
-        print "salvo data"
+        print "saving data"
         print data
         return redirect('/')
     else:
-        print "Non ho dati da salvare!"
+        print "No data to save!"
         print data
         return redirect('/')
 
 @app.route('/', methods = ['GET'])
 def print_prova():
-    print "funziona!"
+    print "It works!"
     return render_template('index.html')
 
-@app.route('/display_drawings', methods = ['GET'])
-def display():
-    print "Recupero disegni!"
-    cur.execute('SELECT * FROM shapes')
+# @app.route('/display_drawings', methods = ['GET'])
+# def display():
+#     print "Fetch drawings!"
+#     cur.execute('SELECT * FROM YOUR-DATABASE')
     
-    cicci = json.dumps(cur.fetchall(), indent=2)
-    # return Response(json.dumps(motifs), mimetype='application/json')
-    # return Response(json.dumps(cur.fetchall(), indent=2), mimetype='application/json')
-
-    # print cicci
-    ciccio = 'sadasdas'
-    ciccio = cicci
-    # print risultati
-    return render_template('index.html', cicci= json.dumps(cur.fetchall(), indent=2))
+#     drawings = json.dumps(cur.fetchall(), indent=2)
+#     drawings = drawings
+#     # print risultati
+#     return render_template('index.html', drawings= json.dumps(cur.fetchall(), indent=2))
 
 if __name__ == '__main__':
   # TODO remove debbuger in production!
