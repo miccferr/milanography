@@ -15,7 +15,8 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+        <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
     <style>
         <style> 
             body {
@@ -29,11 +30,22 @@
                 height: 500px;
 
             }
-
+            .crayon-toolbox{
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                height: 50px;
+                width: 200px;
+                z-index: 2;
+            }
+            .btn-quartieri.selected{
+                color: red;
+            }
         </style>
         <link rel="stylesheet" href="../static/styles/main.css">
         <!-- endbuild -->
-        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
+        <!-- <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' /> -->
+
     </head>
 
     <body>
@@ -46,36 +58,53 @@
             </div>
             <form method="POST" action="/save_json">
                 <div class="row marketing">
-                    
-                    <!-- Mappa -->
+<!-- 
+
+                     <span id='prova'  href="#">PROVA</span>
+
+<button id="drawPolygon">Draw</button>
+<button id="stopDraw">Finish Drawing</button>
+<button id="getData">Get Items Inside Polygon</button>
+
+ -->                    
+<ul class='crayon-toolbox'>
+    <li class="crayon" data-color="red">asdas</li>
+    <li class="crayon" data-color="green">ss</li>
+    <li class="crayon" data-color="blue">aa</li>
+</ul>
+
+
+
+                        <!-- Mappa -->
                     <div id="map" class="col-lg-12">
-                        <nav class='menu-ui'>
+
+                        <nav id='menu-span' class='menu-ui'>
                           <!-- <a id='Lambrate' href='#' >Lambrate</a>
                           <a id='Niguarda' href='#'   >Niguarda</a> -->
-                          <span class='btn-quartieri' data-opt='CentroStorico'  href="#">Centro Storico</span>
+                          <span class='btn-quartieri' data-opt='CentroStorico' class='active' href="#">Centro Storico</span>
                           <span class='btn-quartieri' data-opt='StazioneCentrale' href="#">Stazione Centrale</span>
-                          <span class='btn-quartieri' data-opt='Gorla'  href="#">Gorla</span>
-                          <span class='btn-quartieri' data-opt='Turro'  href="#">Turro</span>
-                          <span class='btn-quartieri' data-opt='Greco'  href="#">Greco</span>
-                          <span class='btn-quartieri' data-opt='Crescenzago'  href="#">Crescenzago</span>
-                          <span class='btn-quartieri' data-opt='CittaStudi'  href="#">Città Studi</span>
-                          <span class='btn-quartieri' data-opt='Lambrate'  href="#">Lambrate</span>
-                          <span class='btn-quartieri' data-opt='Venezia'  href="#">Venezia</span>
-                          <span class='btn-quartieri' data-opt='Vittoria'  href="#">Vittoria</span>
-                          <span class='btn-quartieri' data-opt='Forlanini'  href="#">Forlanini</span>
-                          <span class='btn-quartieri' data-opt='Vigentino'  href="#">Vigentino</span>
-                          <span class='btn-quartieri' data-opt='Chiaravalle'  href="#">Chiaravalle</span>
-                          <span class='btn-quartieri' data-opt='Gratosoglio'  href="#">Gratosoglio</span>
-                          <span class='btn-quartieri' data-opt='Barona'  href="#">Barona </span>
-                          <span class='btn-quartieri' data-opt='Lorenteggio'  href="#">Lorenteggio</span>
-                          <span class='btn-quartieri' data-opt='Baggio'  href="#">Baggio</span>
-                          <span class='btn-quartieri' data-opt='DeAngeli'  href="#">De Angeli</span>
-                          <span class='btn-quartieri' data-opt='SanSiro'  href="#">San Siro</span>
-                          <span class='btn-quartieri' data-opt='Fiera'  href="#">Fiera</span>
-                          <span class='btn-quartieri' data-opt='Gallaratese'  href="#">Gallaratese</span>
-                          <span class='btn-quartieri' data-opt='SanLeonardo'  href="#">San Leonardo</span>
-                          <span class='btn-quartieri' data-opt='QuartoOggiaro'  href="#">Quarto Oggiaro</span>
-                          <span class='btn-quartieri' data-opt='StazioneGaribaldi'  href="#">Stazione Garibaldi</span> 
+                          <span id='Gorla' class='btn-quartieri' data-opt='Gorla'  href="#">Gorla</span>
+                          <span id='Turro' class='btn-quartieri' data-opt='Turro'  href="#">Turro</span>
+                          <span id='Greco' class='btn-quartieri' data-opt='Greco'  href="#">Greco</span>
+                          <span id='Crescenzago' class='btn-quartieri' data-opt='Crescenzago'  href="#">Crescenzago</span>
+                          <span id='CittaStudi' class='btn-quartieri' data-opt='CittaStudi'  href="#">Città Studi</span>
+                          <span id='Lambrate' class='btn-quartieri' data-opt='Lambrate'  href="#">Lambrate</span>
+                          <span id='Venezia' class='btn-quartieri' data-opt='Venezia'  href="#">Venezia</span>
+                          <span id='Vittoria' class='btn-quartieri' data-opt='Vittoria'  href="#">Vittoria</span>
+                          <span id='Forlanini' class='btn-quartieri' data-opt='Forlanini'  href="#">Forlanini</span>
+                          <span id='Vigentino' class='btn-quartieri' data-opt='Vigentino'  href="#">Vigentino</span>
+                          <span id='Chiaravalle' class='btn-quartieri' data-opt='Chiaravalle'  href="#">Chiaravalle</span>
+                          <span id='Gratosoglio' class='btn-quartieri' data-opt='Gratosoglio'  href="#">Gratosoglio</span>
+                          <span id='Barona' class='btn-quartieri' data-opt='Barona'  href="#">Barona </span>
+                          <span id='Lorenteggio' class='btn-quartieri' data-opt='Lorenteggio'  href="#">Lorenteggio</span>
+                          <span id='Baggio' class='btn-quartieri' data-opt='Baggio'  href="#">Baggio</span>
+                          <span id='DeAngeli' class='btn-quartieri' data-opt='DeAngeli'  href="#">De Angeli</span>
+                          <span id='SanSiro' class='btn-quartieri' data-opt='SanSiro'  href="#">San Siro</span>
+                          <span id='Fiera' class='btn-quartieri' data-opt='Fiera'  href="#">Fiera</span>
+                          <span id='Gallaratese' class='btn-quartieri' data-opt='Gallaratese'  href="#">Gallaratese</span>
+                          <span id='SanLeonardo' class='btn-quartieri' data-opt='SanLeonardo'  href="#">San Leonardo</span>
+                          <span id='QuartoOggiaro' class='btn-quartieri' data-opt='QuartoOggiaro'  href="#">Quarto Oggiaro</span>
+                          <span id='StazioneGaribaldi' class='btn-quartieri' data-opt='StazioneGaribaldi'  href="#">Stazione Garibaldi</span> 
                           <span class='btn-quartieri' data-opt='Niguarda'  href="#">Niguarda</span>
                           <span id='redraw'  href='#' class="modificatori"  >Redraw</span>
                           <h3 id='redraw-done' class="modificatori">Done!</h3>
@@ -154,7 +183,9 @@
 
     <!-- build:js({app,.tmp}) scripts/main.js -->
     <!-- <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js">  </script> -->    
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
+    <!-- <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script> -->
+    
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
     <script src="../static/bower_components/Leaflet.draw/dist/leaflet.draw.js">  </script>
     <script src="../static/bower_components/filesaver/FileSaver.min.js"></script>
