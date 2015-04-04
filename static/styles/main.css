@@ -1,3 +1,20 @@
+/*----------------------------------------------------
+                      TYPOGRAPHY
+---------------------------------------------------- */
+@font-face {
+  font-family: 'Bubbleboddy';
+  src: url('../fonts/Bobbleboddy.ttf')  format('truetype')
+       
+}
+@font-face {
+  font-family: 'Bubbleboddy-Light';
+  src: url('../fonts/Bobbleboddy_light.ttf')  format('truetype')
+       
+}
+
+/*----------------------------------------------------
+                      STYLE
+---------------------------------------------------- */
 /*colors*/
 /*green #46DE46*/
 
@@ -10,8 +27,9 @@
 
 /* Space out content a bit */
 body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -29,11 +47,17 @@ body {
 
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
+  font-family: 'Bubbleboddy', sans-serif;
+  font-size: 4.5em;
   margin-top: 0;
   margin-bottom: 0;
   line-height: 40px;
   padding-bottom: 19px;
 }
+.header h4 {
+  font-family: 'Bubbleboddy-Light', sans-serif;
+  font-size: 1.5em;
+  }
 
 /* Custom page footer */
 .footer {
@@ -95,7 +119,8 @@ ul
   text-align:center;
 }
 
-.menu-ui h3 {  
+.menu-ui h3 { 
+
   display: inline-block;  
   text-decoration:none;
   text-align:center;
@@ -144,7 +169,7 @@ Portrait tablets and up */
   }
 
   /* Remove the padding we set earlier */
-  .header,
+  /*.header,*/
   .marketing,
   .footer {
     padding-left: 0;

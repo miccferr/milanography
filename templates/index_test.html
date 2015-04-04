@@ -1,0 +1,185 @@
+<!doctype html>
+<html class="no-js">
+<!--CERCARE flask xsrf  PER ROBE SU SICUREZZA DATI-->
+
+<head>
+    <meta charset="utf-8">
+    <title>Milanography</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="../static/bower_components/bootstrap/dist/css/bootstrap.css">
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+    <style>
+        <style>
+
+            #map {
+
+                height: 800px;
+
+            }
+            .crayon-toolbox{
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                height: 50px;
+                width: 200px;
+                z-index: 2;
+            }
+            .btn-quartieri.selected{
+                color: red;
+            }
+        </style>
+        <link rel="stylesheet" href="../static/styles/main.css">
+        <!-- endbuild -->
+        <!-- <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' /> -->
+
+    </head>
+
+    <body>
+    <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+
+            <div class="container-fluid">
+
+                <header class="header">
+                    <h3 class="text-muted">Milanography</h3>
+                    <h4 class="text-muted">Disegna il tuo quartiere!</h4>
+                </header><!-- /header -->
+
+                <section>
+                    <form method="POST" action="/save_json"> 
+                        <div class="row-fluid">
+                            <!-- Mappa -->
+                            <div id="map" class="col-lg-12">
+                                <nav id='menu-span' class='menu-ui'>
+
+                                  <span class='btn-quartieri' data-opt='CentroStorico' class='active' href="#">Centro Storico</span>
+                                  <span class='btn-quartieri' data-opt='StazioneCentrale' href="#">Stazione Centrale</span>
+                                  <span id='Gorla' class='btn-quartieri' data-opt='Gorla'  href="#">Gorla</span>
+                                  <span id='Turro' class='btn-quartieri' data-opt='Turro'  href="#">Turro</span>
+                                  <span id='Greco' class='btn-quartieri' data-opt='Greco'  href="#">Greco</span>
+                                  <span id='Crescenzago' class='btn-quartieri' data-opt='Crescenzago'  href="#">Crescenzago</span>
+                                  <span id='CittaStudi' class='btn-quartieri' data-opt='CittaStudi'  href="#">Città Studi</span>
+                                  <span id='Lambrate' class='btn-quartieri' data-opt='Lambrate'  href="#">Lambrate</span>
+                                  <span id='Venezia' class='btn-quartieri' data-opt='Venezia'  href="#">Venezia</span>
+                                  <span id='Vittoria' class='btn-quartieri' data-opt='Vittoria'  href="#">Vittoria</span>
+                                  <span id='Forlanini' class='btn-quartieri' data-opt='Forlanini'  href="#">Forlanini</span>
+                                  <span id='Vigentino' class='btn-quartieri' data-opt='Vigentino'  href="#">Vigentino</span>
+                                  <span id='Chiaravalle' class='btn-quartieri' data-opt='Chiaravalle'  href="#">Chiaravalle</span>
+                                  <span id='Gratosoglio' class='btn-quartieri' data-opt='Gratosoglio'  href="#">Gratosoglio</span>
+                                  <span id='Barona' class='btn-quartieri' data-opt='Barona'  href="#">Barona </span>
+                                  <span id='Lorenteggio' class='btn-quartieri' data-opt='Lorenteggio'  href="#">Lorenteggio</span>
+                                  <span id='Baggio' class='btn-quartieri' data-opt='Baggio'  href="#">Baggio</span>
+                                  <span id='DeAngeli' class='btn-quartieri' data-opt='DeAngeli'  href="#">De Angeli</span>
+                                  <span id='SanSiro' class='btn-quartieri' data-opt='SanSiro'  href="#">San Siro</span>
+                                  <span id='Fiera' class='btn-quartieri' data-opt='Fiera'  href="#">Fiera</span>
+                                  <span id='Gallaratese' class='btn-quartieri' data-opt='Gallaratese'  href="#">Gallaratese</span>
+                                  <span id='SanLeonardo' class='btn-quartieri' data-opt='SanLeonardo'  href="#">San Leonardo</span>
+                                  <span id='QuartoOggiaro' class='btn-quartieri' data-opt='QuartoOggiaro'  href="#">Quarto Oggiaro</span>
+                                  <span id='StazioneGaribaldi' class='btn-quartieri' data-opt='StazioneGaribaldi'  href="#">Stazione Garibaldi</span> 
+                                  <span class='btn-quartieri' data-opt='Niguarda'  href="#">Niguarda</span>
+                                  <span id='redraw'  href='#' class="modificatori"  >Redraw</span>
+                                  <h3 id='redraw-done' class="modificatori">Done!</h3>
+                                  <span id='delete' href='#' class="modificatori">Delete</span> 
+                                  <h3 id='delete-done' class="modificatori">Done!</h3>
+                              </nav>
+                          </div>
+                      </div>    
+                  </section>
+
+                  <section>
+                      <!-- Area di stampa a video -->
+                      <div id="comandi" class="col-lg-12">
+                        <br>
+                        <span>Stampa a video del geoJSON prodotto dai poligoni</span>
+                        <textarea id="data" name="data" rows="12" style="width:100%"></textarea>
+                    </div>
+                </section>
+
+                <section>
+                    <!-- Bottone per salve disegno su db-->
+                    <div class="row ">
+                        <div class='col-md-12 text-center' style='text-align:center;'>
+                            <input type="submit" name="salva-disegno" value="Salva il disegno" id="save-drawing" class="btn btn-success btn-lg ">
+                        </div>
+                    </div>
+                </form>
+                <br/>
+
+                <div class="row ">
+                    <form method="GET" action="/display_drawings">
+                        <div class='col-md-12 text-center' style='text-align:center;'>
+                            <input type="submit" name="recupera-disegno" value="Recupera i disegni" id="retrieve-drawing" class="btn btn-info btn-lg ">
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+
+            <section>
+                <!-- Export Data -->
+                <div class="row marketing">
+                    <h3 style='text-align:center;'>Download geoJSON:</h3>
+                    <!-- esporto txt tramite js-->
+                    <form method="POST">
+                        <div class='col-md-6 col-xs-6' style='text-align:center;'>
+                            <input type="button" name="esporta-file-txt" value="Esporta Disegno" id="export-txt" class="btn btn-primary btn-lg " onclick="saveAs(stampoSuFile(drawnItems.toGeoJSON()), 'nome_file.js');">
+                        </div>
+                        <!-- esporto json recuprendolo dal db tramite flask-->
+                        <div class='col-md-6 col-xs-6' style='text-align:center;'>
+                            <input type="button" name="esporta-file-json" value="Esporta .json" class="btn btn-primary btn-lg " >
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <script>
+                var someJavaScriptVar = '{{ cicci }}';
+                console.log(someJavaScriptVar);
+            </script>
+        </form>
+    </div>
+    <!-- Footnote -->
+    <div class="row">
+        <div class='col-md-offset-3 col-md-6 col-md-offset-3 ' style='text-align:center;'>
+            <p>
+                <span style="font-weight:bold">NOTA:</span>Il bottone "esporta .json" serve solo per stampare facilmente da db il JSON, visto che quando lo schiacci flask esegue l'export dal db sqlite. In futuro andrà rimosso perchè prevedi di implementare una funzione di export da remoto, da lanciare a tuo piacimento per recuperare un dump del db ogniqualvolta desideri.</p>
+            </div>
+        </div>
+
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="../static/bower_components/jquery/dist/jquery.js"></script>
+
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:js scripts/plugins.js -->
+
+
+        <!-- build:js({app,.tmp}) scripts/main.js -->
+        <!-- <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js">  </script> -->    
+        <!-- <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script> -->
+
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+        <script src="../static/bower_components/Leaflet.draw/dist/leaflet.draw.js">  </script>
+        <script src="../static/bower_components/filesaver/FileSaver.min.js"></script>
+        <script src="../static/scripts/main.js">  </script>
+
+        <!-- endbuild -->
+
+
+    </body>
+
+    </html>

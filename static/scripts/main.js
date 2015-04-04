@@ -20,6 +20,7 @@ L.control.layers({
     'Toner': layerToner
 }).addTo(map);
 
+map.scrollWheelZoom.disable();
 // // mio token mapbox
 // nota che se uso questo costruttore per qualche motivo perdo i tooltips del puntatore con scritto "clicca per editare ecc"
 // L.mapbox.accessToken = 'your aPI';
@@ -52,6 +53,20 @@ var editor = new L.EditToolbar.Edit(map, {
 var remover = new L.EditToolbar.Delete(map, {
     featureGroup: drawnItems,
 });
+
+/*--------------------------------------------------------
+UTILITIES FUNCTIONS
+--------------------------------------------------------*/
+
+$(window).load(function(){
+    $('.btn-quartieri').each(function(index, el) {
+       var opt = $(this).data('opt');
+     // console.log(opt);
+     $(this).css('background',optionsSS[opt].shapeOptions.color);  
+
+ })
+})
+
 
 /*--------------------------------------------------------
 UTILITIES FUNCTIONS
@@ -129,8 +144,6 @@ optionsSS.SanLeonardo = new neighborhoodsColorOption('San Leonardo', '#d297c2')
 optionsSS.QuartoOggiaro = new neighborhoodsColorOption('Quarto Oggiaro', '#d89ec8')
 optionsSS.StazioneGaribaldi = new neighborhoodsColorOption('Stazione Garibaldi', '#dda6cd')
 optionsSS.Niguarda = new neighborhoodsColorOption('Niguarda', '#c6e5ec')
-// var optionsLambrate = new neighborhoodsColorOption('Lambrate', '#FC9D9A');
-// var optionsNiguarda = new neighborhoodsColorOption('Niguarda', '#C8C8A9');
 
 
 
@@ -138,51 +151,20 @@ optionsSS.Niguarda = new neighborhoodsColorOption('Niguarda', '#c6e5ec')
                                        EVENT HANDLERS
                                        -----------------------------------------------------------------------------*/
 // Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
-// $('#Lambrate').on('click', function  () {
-//     var polyDrawerLambrate = new L.Draw.Polygon(map, optionsLambrate).enable()    
-// });
-// $('#Niguarda').on('click', function  () {
-//     var polyDrawerNiguarda = new L.Draw.Polygon(map, optionsNiguarda).enable()   
-// });
-/*
-var anyCrayon = new Crayon();
 
-$('.crayon-toolbox').on('click', function(){
-    var crayon = $(this),
-    color = crayon.data('color');
-
-    anyCrayon.setColor(color);
-});
-*/
-
-/*var anyCrayon = new L.Draw.Polygon(map);
-// var anyCrayon = new Crayon();
-
-$('.crayon-toolbox').on('click', function(){
-    var opt = $(this).data('color');
-    crayon = $(this);
-    console.log(anyCrayon)
-    color = crayon.data('color');
-    console.log(color);
-    /*console.log($(this));
-    console.log(opt);
-    console.log(anyCrayon);
-    // anyCrayon.setOptions(optionsSS[opt]);
-    // anyCrayon.enable()
-});
-*/
 
 // var polyDrawer;
 var polyDrawer = new L.Draw.Polygon(map);
 $('.btn-quartieri').click(function(){
     if($(this).hasClass('selected'))
           {$(this).removeClass('selected'); 
-      console.log('disattivo');
+            console.log('disattivo');
            //if there is a code for disabling current crayon add it here
            polyDrawer.disable();
           }
    else{
           $('.btn-quartieri').removeClass('selected');
+          polyDrawer.disable();
           console.log('attivo');
           $(this).addClass('selected');
           //if there is a code for selecting or disabling crayon add here
@@ -192,175 +174,7 @@ $('.btn-quartieri').click(function(){
    }
 });
 
-// var quartieriSchiacciati = [];
-// var polyDrawer, polyDrawerStart=false, polyDrawerEnd=false;
-// $('.btn-quartieri').on('click', function  (e) {
 
-//     if (!isInArray(e.target.id,quartieriSchiacciati)) {
-//         quartieriSchiacciati.push(e.target.id);
-
-//     }else{
-//         if( $(this).hasClass('active') ){
-//             polyDrawer.disable();
-//             $(this).removeClass('active');
-//             return
-//         }else{
-//         if (!polyDrawer && (polyDrawerStart || polyDrawerEnd)){
-//             polyDrawer.disable();
-//             // var a = new L.Draw.Polygon(map, optionsSS[opt]).disable();    
-//         }
-//         $('.btn-quartieri').removeClass('active');
-//         // $( '.btn-quartieri').unbind( e );
-//         $(this).addClass('active');
-//         var opt = $(this).data('opt');
-//         // var polyDrawer = {};
-//         polyDrawer = new L.Draw.Polygon(map, optionsSS[opt]);
-//         polyDrawer.enable();
-//     }
-// }
-
-
-
-// });
-
-
-
-
-// var polyDrawer, polyDrawerStart=false, polyDrawerEnd=false, nome;
-/*
-$('.btn-quartieri').on('click', function  (e) {
-    // var oldId,  currentId;
-    nome = e.target.id;
-    if( nome !== e.target.id ){
-       polyDrawer.disable()
-    }else{
-        var opt = $(this).data('opt');
-        // var polyDrawer = {};
-        polyDrawer = new L.Draw.Polygon(map, optionsSS[opt]);
-        polyDrawer.enable()
-        oldId = polyDrawer._leaflet_id;
-    }
-});*/
-
-// var currentDrawId, oldDrawId;
-// // Get the element, add a click listener...
-// document.getElementById("menu-span").addEventListener("click", function(e) {
-//     // e.target is the clicked element!
-//     // If it was a list item
-//     if(e.target && e.target.nodeName == "SPAN") {
-//         // List item found!  Output the ID!
-//         console.log(e.target);
-//         console.log("List item " + e.target.id + " was clicked!");
-//         var opt = $(this).data('opt');
-//         polyDrawer = new L.Draw.Polygon(map, optionsSS[opt]);
-//         console.log(polyDrawer);
-//         polyDrawer.enable()
-
-//         if(e.target.id !== currentDrawId){
-//              polyDrawer.disable()
-//             currentDrawId = e.target.id;
-
-//             // console.log('sono diversi');
-//         }
-//     }
-// });
-
-
-/*var polyDrawer, polyDrawerStart=false, polyDrawerEnd=false;
-$('.btn-quartieri').on('click', function  (e) {
-    
-     evento = e;
-     // console.log(evento.target.id);
-    if( $(this).hasClass('active') ){
-        $('.btn-quartieri').unbind('click')
-       map._handlers[0].disable()
-        // $(this).removeClass('active');
-        return
-    }else{
-        if (!polyDrawer && (polyDrawerStart || polyDrawerEnd)){
-            polyDrawer.disable();
-            // var a = new L.Draw.Polygon(map, optionsSS[opt]).disable();    
-        }
-        $('.btn-quartieri').removeClass('active');
-        // $( '.btn-quartieri').unbind( e );
-        $(this).addClass('active');
-        var opt = $(this).data('opt');
-        // var polyDrawer = {};
-        polyDrawer = new L.Draw.Polygon(map, optionsSS[opt]);
-        polyDrawer.enable()
-
-    }
-    
-});*/
-
-/*map.on('draw:drawstart', function (e){
-            polyDrawerStart = true;
-        }) 
-map.on('draw:drawstop', function (e){
-            polyDrawerEnd = true;
-        })
-*/
-
-
-
-/*var polyC, attivo=false;
-function disegna () {
-    if (attivo == true ){
-        polyC.disable();
-        attivo = false;    
-    }else{
-        console.log('disegno');
-        polyC = new L.Draw.Polygon(map, optionsSS['Greco']).enable();    
-        console.log(polyC);    
-        attivo = true;
-    }
-    
-}
-$('#prova').on('click', disegna() );
-$('#prova').off('click', disegna() );*/
-
-
-/*function greet( event ) {
-  alert( "Hello " + event.data.name );
-}
-$( "#prova" ).on( "click", {
-  name: "Karl"
-}, greet );
-// $( "button" ).on( "click", {
-//   name: "Addy"
-// }, greet );
-
-// console.log($._data( $(".btn-quartieri#Gorla")[0], "events" ));
-*/
-
-
-/*var drawPolygonButton = document.getElementById('drawPolygon');
-var stopDrawButton = document.getElementById('stopDraw');
-var getDataButton = document.getElementById('getData');
-var currentPolygon = {}; //Empty object to be used later;
-
-drawPolygonButton.addEventListener('click', function(){
-    // currentPolygon = new L.polygon([]).addTo(map);
-    console.log('sasd');
-    map.on('click', console.log('sdddd')); //Listen for clicks on map.
-});
-
-stopDraw.addEventListener('click', function(){
-    map.off('click', addLatLngToPolygon); //Stop listening for clicks on map.
-});*/
-
-
-
-
-
-$(window).load(function(){
-    $('.btn-quartieri').each(function(index, el) {
-       var opt = $(this).data('opt');
-     // console.log(opt);
-     $(this).css('background',optionsSS[opt].shapeOptions.color);  
-
- })
-})
 
 // Event Handler for re-drawing the shapes
 // $(".menu-ui a").slideUp();
@@ -443,7 +257,8 @@ disegnati = [];
 // drawnItems.addLayer(layer);
 // }); 
 
-map.on('draw:created' , function(e) {    
+map.on('draw:created' , function(e) {
+    $('.btn-quartieri').removeClass('selected');     
     // Cancello i valori precedenti nell'area di testo
     $('#data').val(' ');
     var type = e.layerType;
