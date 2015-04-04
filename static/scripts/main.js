@@ -60,7 +60,7 @@ UTILITIES FUNCTIONS
 
 $(window).load(function(){
     $('.btn-quartieri').each(function(index, el) {
-       var opt = $(this).data('opt');
+     var opt = $(this).data('opt');
      // console.log(opt);
      $(this).css('background',optionsSS[opt].shapeOptions.color);  
 
@@ -149,7 +149,7 @@ optionsSS.Niguarda = new neighborhoodsColorOption('Niguarda', '#c6e5ec')
 
 /*-----------------------------------------------------------------------------
                                        EVENT HANDLERS
------------------------------------------------------------------------------*/
+                                       -----------------------------------------------------------------------------*/
 // Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
 
 
@@ -157,12 +157,12 @@ optionsSS.Niguarda = new neighborhoodsColorOption('Niguarda', '#c6e5ec')
 var polyDrawer = new L.Draw.Polygon(map);
 $('.btn-quartieri').click(function(){
     if($(this).hasClass('selected'))
-          {$(this).removeClass('selected'); 
-            console.log('disattivo');
+      {$(this).removeClass('selected'); 
+  console.log('disattivo');
            //if there is a code for disabling current crayon add it here
            polyDrawer.disable();
-          }
-   else{
+       }
+       else{
           $('.btn-quartieri').removeClass('selected');
           polyDrawer.disable();
           console.log('attivo');
@@ -171,8 +171,8 @@ $('.btn-quartieri').click(function(){
           var opt = $(this).data('opt');
           polyDrawer.setOptions(optionsSS[opt]);
           polyDrawer.enable();
-   }
-});
+      }
+  });
 
 
 
@@ -204,12 +204,6 @@ $('#redraw-done').click(function() {
     
 });
 
-// $("#editButton").click(function()
-// {
-//     $('div').toggleClass('expanded');
-// });
-
-
 // Event Handler for deleting the shapes
 $('#delete').click(function(){
     // var $this = $(this);    
@@ -238,26 +232,6 @@ $('#delete-done').click(function() {
 // array storing the names of already drawn neighborhoods
 disegnati = [];
 
-
-// Vecchio codice
-// map.on('draw:created' , function(e) {
-//     var type = e.layerType;
-//     var layer = e.layer;
-//     nomeQuartiere = layer.options.name    
-//     if ( !isInArray(nomeQuartiere,disegnati)){
-//         disegnati.push(nomeQuartiere);            
-//     }else{
-//         for (var obj in drawnItems._layers){
-//             if (drawnItems._layers[obj].options.name === nomeQuartiere){
-//                 drawnItems.removeLayer(drawnItems._layers[obj])
-//             }
-//         }
-//     }
-// console.log("ddd");
-// drawnItems.addLayer(layer);
-// }); 
-
-
 map.on('draw:created' , function(e) {
     $('.btn-quartieri').removeClass('selected');     
     // Cancello i valori precedenti nell'area di testo
@@ -277,27 +251,17 @@ map.on('draw:created' , function(e) {
             }
         }
     }
-    
     drawnItems.addLayer(layer);
-    var shape = layer.toGeoJSON()
-    // Preparo l'oggtto per la stampa a video
-    var shape_to_print = drawnItems.toGeoJSON();
-    
-    // Stampo nell'area di testo gli oggetti correntemente generati 
-    $('#data').val(JSON.stringify(shape_to_print, null, '\t'));
-    
-    // Preparo l'oggetto per la stampa su file
-    // stampoSuFile(drawnItems.toGeoJSON());
 });
+var a;
+$('#save-drawing2').click(function(){
+    if (drawnItems.toGeoJSON().features.length !== 0){
+        var dati = JSON.stringify(drawnItems.toGeoJSON());
+        $.ajax("/save_json", {
+        data: dati,
+        contentType : "application/json",
+        type : "POST"
+    })    
+}
 
-$('#save-drawing').click(function(){
-    var dati = JSON.stringify(drawnItems.toGeoJSON());
-    $.ajax("/cicci", {
-    data: dati,
-    contentType : "application/json",
-    type : "POST"
-    })
 });
-
-// Preparo l'oggetto per il db
-// TODO: mi sembra che questa parte sia stata fatta con FLask. Da controllare. Sicuramente è da implementare con Postgres e non SQLite

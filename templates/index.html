@@ -71,7 +71,7 @@
               </header>
 
               <section>
-                <form method="POST" action="/save_json"> 
+                <!-- <form method="POST" action="/save_json">  -->
                   <div class="row-fluid">
                     <!-- Mappa -->
                     <div id="map" class="col-lg-12">
@@ -110,20 +110,18 @@
                   </div>    
                 </section>
                 <section>
-                      <!-- Area di stampa a video -->
-                      <div id="comandi" class="col-lg-12">
-                        <textarea id="data" name="data" rows="12" style="width:100%"></textarea>
+                  <!-- Bottone per salve disegno su db-->
+                  <div class="row ">
+                    <div class='col-md-12 text-center' style='text-align:center;'>
+                      <input type="submit" name="salva-disegno" value="Salva il disegno"  class="btn btn-success btn-lg ">
                     </div>
+                  </div>
+
                 </section>
 
-              <!-- Bottone per salve disegno su db-->
-              <div class="row ">
-                <div class='col-md-12 text-center' style='text-align:center;'>
-                    <input type="submit" name="salva-disegno" value="Salva il disegno" id="save-drawing" class="btn btn-success btn-lg ">
-                </div>
-              </div>
+                <button type="input" id="save-drawing2" class='btn'>sadasda</button>
 
-              </form>
+              <!-- </form> -->
 
 
             </div><!-- end container -->
