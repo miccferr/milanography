@@ -5,7 +5,7 @@ GENERAL MAP SETUP
 // inizializzo ed assengno toner map
 var layerToner = new L.StamenTileLayer("toner");
 // // Dichiaro ed assegno la mappa + opzioni
-var map = L.map('map').setView([45.468874, 9.187517], 14);
+var map = L.map('map').setView([45.4691000386715, 9.196672439575195], 14);
 // Attribution Link
 var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 // BaseLayer 
@@ -149,7 +149,7 @@ optionsSS.Niguarda = new neighborhoodsColorOption('Niguarda', '#c6e5ec')
 
 /*-----------------------------------------------------------------------------
                                        EVENT HANDLERS
-                                       -----------------------------------------------------------------------------*/
+-----------------------------------------------------------------------------*/
 // Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
 
 
@@ -257,6 +257,7 @@ disegnati = [];
 // drawnItems.addLayer(layer);
 // }); 
 
+
 map.on('draw:created' , function(e) {
     $('.btn-quartieri').removeClass('selected');     
     // Cancello i valori precedenti nell'area di testo
@@ -276,21 +277,27 @@ map.on('draw:created' , function(e) {
             }
         }
     }
-    // Questo è il passaggio in cui i poligoni disegnati vengono aggiunti al layer di overlay.
+    
     drawnItems.addLayer(layer);
-    // Fin qui i comandi per disegnare su mappa
-    // Qui sotto invece i passaggi per stampare a video/su txt
-    // Converto ogni layer in geoJSON
     var shape = layer.toGeoJSON()
     // Preparo l'oggtto per la stampa a video
     var shape_to_print = drawnItems.toGeoJSON();
+    
     // Stampo nell'area di testo gli oggetti correntemente generati 
     $('#data').val(JSON.stringify(shape_to_print, null, '\t'));
-    // a = drawnItems.toGeoJSON();
+    
     // Preparo l'oggetto per la stampa su file
-    stampoSuFile(drawnItems.toGeoJSON());
+    // stampoSuFile(drawnItems.toGeoJSON());
 });
 
+$('#save-drawing').click(function(){
+    var dati = JSON.stringify(drawnItems.toGeoJSON());
+    $.ajax("/cicci", {
+    data: dati,
+    contentType : "application/json",
+    type : "POST"
+    })
+});
 
 // Preparo l'oggetto per il db
 // TODO: mi sembra che questa parte sia stata fatta con FLask. Da controllare. Sicuramente è da implementare con Postgres e non SQLite

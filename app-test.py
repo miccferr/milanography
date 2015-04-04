@@ -7,7 +7,6 @@ from flask import Flask, request, redirect, render_template, Response
 from flask.ext.sqlalchemy import SQLAlchemy
 from psycopg2.extras import RealDictCursor
 
-
 app = Flask(__name__)
 
 db_conn = 'postgresql+psycopg2://mic:@localhost/quartieri'
@@ -16,11 +15,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_conn
 con = psycopg2.connect(database='quartieri', user='mic')
 cur = con.cursor(cursor_factory=RealDictCursor)
 
+@app.route('/cicci', methods = ['POST'])
+def cicci():
+    print request.content_type
+    print request.json
+    return render_template('index.html')
+    # dataz =  request.values.get('salva-disegno')
+    # print 'stampoooo' + str(dataz)
+
 @app.route('/save_json', methods = ['POST'])
-def save_json():    
+def save_json():
     data = request.form['data']
     if data != '':
-        cur.execute('INSERT INTO quartieri (data) VALUES (%s)', [data])
+        cur.execute('INSERT INTO disegno_quartieri (data) VALUES (%s)', [data])
         con.commit() 
         print "saving data"
         print data
