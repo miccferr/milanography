@@ -1,25 +1,37 @@
 /*--------------------------------------------------------
 GENERAL MAP SETUP
 --------------------------------------------------------*/
-// vecchie opzioni
+var NE = L.latLng(45.579685412192674,9.4647216796875);
+var SW = L.latLng(45.33887388364058,8.888969421386719);
+var boundaries = L.latLngBounds(SW,NE);
+var map = L.map('map', {maxBounds: boundaries}).setView([45.4691000386715, 9.196672439575195], 14);
+
+// BaseLayer 
 // inizializzo ed assengno toner map
 var layerToner = new L.StamenTileLayer("toner");
-// // Dichiaro ed assegno la mappa + opzioni
-var map = L.map('map').setView([45.4691000386715, 9.196672439575195], 14);
+
+var layerDarkMatter = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',{
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+});
+
+map.addLayer(layerDarkMatter);
+
 // Attribution Link
 var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-// BaseLayer 
+// OSM LAYER
 var OSM = L.tileLayer(
     'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; ' + mapLink + ' Contributors',
         maxZoom: 18,
-    }).addTo(map);
+    });
 
-L.control.layers({
+var levels = {
     'OSM': OSM,
-    'Toner': layerToner
-}).addTo(map);
-
+    'Toner': layerToner,
+    'DarkMatter': layerDarkMatter
+    }
+L.control.layers(null,levels, { position: 'topleft' }).addTo(map);
+// L.control.layers({ position: 'topleft' });
 map.scrollWheelZoom.disable();
 // // mio token mapbox
 // nota che se uso questo costruttore per qualche motivo perdo i tooltips del puntatore con scritto "clicca per editare ecc"
@@ -116,33 +128,33 @@ function neighborhoodsColorOption (name, color) {
     };
 }
 
-
+// #d9dc94 #74c399 #7bca9f #cd90bb #cadd95
 
 var optionsSS = {};
 optionsSS.CentroStorico = new neighborhoodsColorOption('Centro storico', '#9bcbd2')
-optionsSS.StazioneCentrale = new neighborhoodsColorOption('Stazione Centrale', '#a2d1d7')
-optionsSS.Gorla = new neighborhoodsColorOption('Gorla', '#aad7dd')
-optionsSS.Turro = new neighborhoodsColorOption('Turro', '#b1dce2')
+optionsSS.StazioneCentrale = new neighborhoodsColorOption('Stazione Centrale', '#F7BDAF')
+optionsSS.Gorla = new neighborhoodsColorOption('Gorla', '#FEFBCA')
+optionsSS.Turro = new neighborhoodsColorOption('Turro', '#CBE5BE')
 optionsSS.Greco = new neighborhoodsColorOption('Greco', '#f3f3db')
-optionsSS.Crescenzago = new neighborhoodsColorOption('Crescenzago', '#eef4dd')
-optionsSS.CittaStudi = new neighborhoodsColorOption('Città Studi', '#eaf4df')
-optionsSS.Lambrate = new neighborhoodsColorOption('Lambrate', '#e7f5e1')
-optionsSS.Venezia = new neighborhoodsColorOption('Venezia', '#e4f6e3')
-optionsSS.Vittoria = new neighborhoodsColorOption('Vittoria', '#e4f7e7')
-optionsSS.Forlanini = new neighborhoodsColorOption('Forlanini', '#6ebd93')
-optionsSS.Vigentino = new neighborhoodsColorOption('Vigentino', '#74c399')
-optionsSS.Chiaravalle = new neighborhoodsColorOption('Chiaravalle', '#7bca9f')
+optionsSS.Crescenzago = new neighborhoodsColorOption('Crescenzago', '#b1dce2')
+optionsSS.CittaStudi = new neighborhoodsColorOption('Città Studi', '#FAD2DB')
+optionsSS.Lambrate = new neighborhoodsColorOption('Lambrate', '#D6C7DE')
+optionsSS.Venezia = new neighborhoodsColorOption('Venezia', '#7FE4D6')
+optionsSS.Vittoria = new neighborhoodsColorOption('Vittoria', '#4ACCF0')
+optionsSS.Forlanini = new neighborhoodsColorOption('Forlanini', '#FB8EC3')
+optionsSS.Vigentino = new neighborhoodsColorOption('Vigentino', '#FFC0A8')
+optionsSS.Chiaravalle = new neighborhoodsColorOption('Chiaravalle', '#C2D1E9')
 optionsSS.Gratosoglio = new neighborhoodsColorOption('Gratosoglio', '#82cfa6')
 optionsSS.Barona  = new neighborhoodsColorOption('Barona ', '#d9aa8f')
-optionsSS.Lorenteggio = new neighborhoodsColorOption('Lorenteggio', '#dabc90')
-optionsSS.Baggio = new neighborhoodsColorOption('Baggio', '#dbce92')
-optionsSS.DeAngeli = new neighborhoodsColorOption('De Angeli', '#d9dc94')
-optionsSS.SanSiro = new neighborhoodsColorOption('San Siro', '#cadd95')
-optionsSS.Fiera = new neighborhoodsColorOption('Fiera', '#bbde97')
-optionsSS.Gallaratese = new neighborhoodsColorOption('Gallaratese', '#cd90bb')
-optionsSS.SanLeonardo = new neighborhoodsColorOption('San Leonardo', '#d297c2')
+optionsSS.Lorenteggio = new neighborhoodsColorOption('Lorenteggio', '#d297c2')
+optionsSS.Baggio = new neighborhoodsColorOption('Baggio', '#A0E9C3')
+optionsSS.DeAngeli = new neighborhoodsColorOption('De Angeli', '#EFED8F')
+optionsSS.SanSiro = new neighborhoodsColorOption('San Siro', '#FFA188')
+optionsSS.Fiera = new neighborhoodsColorOption('Fiera', '#5FC7B4')
+optionsSS.Gallaratese = new neighborhoodsColorOption('Gallaratese', '#bbde97')
+optionsSS.SanLeonardo = new neighborhoodsColorOption('San Leonardo', '#6ebd93')
 optionsSS.QuartoOggiaro = new neighborhoodsColorOption('Quarto Oggiaro', '#d89ec8')
-optionsSS.StazioneGaribaldi = new neighborhoodsColorOption('Stazione Garibaldi', '#dda6cd')
+optionsSS.StazioneGaribaldi = new neighborhoodsColorOption('Stazione Garibaldi', '#78C6E1')
 optionsSS.Niguarda = new neighborhoodsColorOption('Niguarda', '#c6e5ec')
 
 
@@ -208,6 +220,7 @@ $('#redraw-done').click(function() {
 $('#delete').click(function(){
     // var $this = $(this);    
     var $this = $(this);
+    console.log($(this));
     // $this.addClass('attivo');
     if(!$this.hasClass('attivo')){
         // redraw functionality enabled
@@ -218,7 +231,8 @@ $('#delete').click(function(){
         $this.addClass('attivo');
     };
 });
-$('#delete-done').click(function() {
+$('#delete-done').click(function(e) {
+
     var $this = $(this);
     // redraw functionality disabled
     remover.disable();
@@ -226,6 +240,8 @@ $('#delete-done').click(function() {
     $this.slideUp('fast');
     // change button class
     $('#delete').removeClass('attivo');
+    // empty the drawn array
+    disegnati.length = 0;    
     
 });
 
@@ -240,6 +256,7 @@ map.on('draw:created' , function(e) {
     layer = e.layer;
     // assegno il nome del quartiere
     nomeQuartiere = layer.options.name       
+    layer.bindPopup(nomeQuartiere);
     // cancello la vecchia forma se ne disegno una nuova
     // in modo da averne sempre una e solo una per ogni quartiere
     if ( !isInArray(nomeQuartiere,disegnati)){
@@ -252,16 +269,75 @@ map.on('draw:created' , function(e) {
         }
     }
     drawnItems.addLayer(layer);
+
+    var shape = layer.toGeoJSON()
+    // toGeoJSON doesn't take into account the ShapeOptions properties, so I'm gonna do it myself!
+    // saving the neighborhood's name
+    shape.properties.name = nomeQuartiere;
+    // saving the neighborhood's color
+    coloreQuartiere = layer.options.color
+    shape.properties.color = coloreQuartiere;
+    var shape_for_db = JSON.stringify(shape);
+    console.log(shape_for_db);
 });
+
+
+
 var a;
-$('#save-drawing2').click(function(){
+$('#save-drawing').click(function(){
     if (drawnItems.toGeoJSON().features.length !== 0){
         var dati = JSON.stringify(drawnItems.toGeoJSON());
         $.ajax("/save_json", {
         data: dati,
         contentType : "application/json",
         type : "POST"
-    })    
+        })    
+    }
+});
+
+// $.when(drawnItems.toGeoJSON().features.length !== 0).done(console.log('DESIGNATO'));
+if (drawnItems.toGeoJSON().features.length !== 0){
+    console.log('DESIGNATO');
+    $('#save-drawing').removeClass('soft-color');
+}
+/*obj[key]
+var obj = drawnItems._layers
+Object.keys(obj).forEach(function(key) {
+    // console.log(key, obj[key]);
+    console.log(obj[key]);
+// console.log(obj[key].toGeoJSON())
+});
+
+$(obj).each(function(i,e) {
+ console.log(e[i].toGeoJSON());   
+});
+
+// .features[0].properties['name']=nomeQuartiere
+var disegnini = drawnItems.toGeoJSON() 
+for (var disegnini in disegnini ){
+    console.log(disegno);
+    console.log(disegnini);
 }
 
+
+$(disegnini.features).each(function(index, el) {
+    console.log(index);
+    console.log(el.properties['name']=nomeQuartiere[index]); // drawnItems._layers[49].options.name
+    console.log(el.properties['color']=coloreQuartiere[index]);
 });
+$(drawnItems._layers).each(function(index, el) {
+    console.log(index);
+    console.log(el);
+    // console.log(el.properties['name']=nomeQuartiere[index]); // drawnItems._layers[49].options.name
+    // console.log(el.properties['color']=coloreQuartiere[index]);
+});
+
+var obj = drawnItems._layers
+Object.keys(obj).forEach(function(key) {
+    // console.log(key, obj[key]);
+    console.log(obj[key]);
+    var nomeQuartiere = obj[key].options.name;
+    console.log(obj[key].toGeoJSON().properties['name']=nomeQuartiere); // drawnItems._layers[49].options.name
+console.log(obj[key].toGeoJSON().properties.name)
+});
+*/

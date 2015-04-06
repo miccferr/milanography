@@ -42,13 +42,15 @@ body {
 
 /* Custom page header */
 .header {
+  padding: 10px 15px;
   border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 0;
 }
 
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   font-family: 'Bubbleboddy', sans-serif;
-  font-size: 4.5em;
+  font-size: 4.2em;
   margin-top: 0;
   margin-bottom: 0;
   line-height: 40px;
@@ -59,36 +61,37 @@ body {
   font-size: 1.5em;
   }
 
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
+.header li a {
+  padding-top: 66px;
+  padding-bottom: 0px;
+  margin: 0;
+  font-family: 'Bubbleboddy-Light', sans-serif;
+  font-size: 1.5em;
+}
+.navbar-toggle {
+  margin-left: 50%;
 }
 
-.container-narrow > hr {
-  margin: 30px 0;
+.navbar-toggle .icon-bar{
+  background-color: #999999;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+.about{
+  padding-top: 20px;
 }
 
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
+.about h3 {
+  font-family: 'Bubbleboddy', sans-serif;
+  font-size: 2.7em;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
 }
-
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-}
-
-.marketing p + h4 {
-  margin-top: 28px;
-}
+.about h4 {
+  font-family: 'Bubbleboddy-Light', sans-serif;
+  font-size: 1.2em;
+  }
 
 
 
@@ -103,7 +106,8 @@ ul
   /*background:#fff;*/
   color: #000;
   position:absolute;
-  top:200px; right:10px;
+  top:10px;
+  right:10px;
   z-index:1;
   border-radius:3px;
   width:120px;
@@ -119,8 +123,7 @@ ul
   text-align:center;
 }
 
-.menu-ui h3 { 
-
+.menu-ui h3 {
   display: inline-block;  
   text-decoration:none;
   text-align:center;
@@ -149,17 +152,24 @@ ul
   background:#3074a4;
 }
 
-#Lambrate {background: #FC9D9A ; width:120px; }
-#Niguarda {background: #C8C8A9 ;  width:120px;}
+.btn-quartieri.selected{
+  color: red;
+}
 #redraw {background: #fe7f43 ;  width:120px;}
 #redraw-done {background: #feb38f ; display: none; width:120px; position: relative; top: 0; margin: 0; line-height: 20px; font-size: 12px;}
 #delete {background: #fe4365 ;  width:120px; margin-top: 0px; }
 #delete-done {background: #fe8fa3 ; display: none;  width:120px; position: relative; top: 0px; margin: 0; line-height: 20px; font-size: 12px;}
 
-/*.modificatori {
-  text-decoration:  blink;
-  font-weight: 600;
-}*/
+.soft-color{
+  background:#67B567;
+}
+
+/*---------MAP----------------------*/
+#map {
+      height: 1000px;
+    }
+
+
 
 /*---------- Responsive:------------
 Portrait tablets and up */
@@ -177,8 +187,9 @@ Portrait tablets and up */
   }
 
   /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
+ 
+  .header h3{
+    font-size: 4.5em;
   }
 
   /* Remove the bottom border on the jumbotron for visual effect */
