@@ -15,7 +15,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_conn
 con = psycopg2.connect(database='quartieri', user='mic')
 cur = con.cursor(cursor_factory=RealDictCursor)
 
-
 @app.route('/save_json', methods = ['POST'])
 def save_json():
     print request.content_type 

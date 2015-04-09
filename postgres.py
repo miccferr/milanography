@@ -3,10 +3,9 @@
 import psycopg2
 import sys
 import json
-from flask import Flask, request, redirect, render_template, Response
+from flask import Flask, request, redirect, render_template, Response, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from psycopg2.extras import RealDictCursor
-
 
 app = Flask(__name__)
 
@@ -17,8 +16,10 @@ con = psycopg2.connect(database='YOUR-DATABASE', user='YOUR-USERNAME')
 cur = con.cursor(cursor_factory=RealDictCursor)
 
 @app.route('/save_json', methods = ['POST'])
-def save_json():    
-    data = request.form['data']
+def save_json():
+    print request.content_type 
+    jsondata = str(request.json)
+    data = json.dumps(jsondata)
     if data != '':
         cur.execute('INSERT INTO YOUR-DATABASE (YOUR-TABLE) VALUES (%s)', [data])
         con.commit() 
@@ -28,7 +29,7 @@ def save_json():
     else:
         print "No data to save!"
         print data
-        return redirect('/')
+        return redirect('/')   
 
 @app.route('/', methods = ['GET'])
 def print_prova():
@@ -48,4 +49,5 @@ def print_prova():
 if __name__ == '__main__':
   # TODO remove debbuger in production!
   app.run(debug=True)
+
 
