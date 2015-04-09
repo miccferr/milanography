@@ -18,7 +18,7 @@ cur = con.cursor(cursor_factory=RealDictCursor)
 
 @app.route('/save_json', methods = ['POST'])
 def save_json():
-    print request.content_type
+    print request.content_type 
     jsondata = str(request.json)
     data = json.dumps(jsondata)
     # print data

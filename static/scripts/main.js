@@ -1,3 +1,5 @@
+
+
 /*--------------------------------------------------------
 GENERAL MAP SETUP
 --------------------------------------------------------*/
@@ -29,7 +31,7 @@ var levels = {
     'OSM': OSM,
     'Toner': layerToner,
     'DarkMatter': layerDarkMatter
-    }
+}
 L.control.layers(null,levels, { position: 'topleft' }).addTo(map);
 // L.control.layers({ position: 'topleft' });
 map.scrollWheelZoom.disable();
@@ -72,7 +74,7 @@ UTILITIES FUNCTIONS
 
 $(window).load(function(){
     $('.btn-quartieri').each(function(index, el) {
-     var opt = $(this).data('opt');
+       var opt = $(this).data('opt');
      // console.log(opt);
      $(this).css('background',optionsSS[opt].shapeOptions.color);  
 
@@ -131,11 +133,11 @@ function neighborhoodsColorOption (name, color) {
 // #d9dc94 #74c399 #7bca9f #cd90bb #cadd95
 
 var optionsSS = {};
-optionsSS.CentroStorico = new neighborhoodsColorOption('Centro storico', '#9bcbd2')
-optionsSS.StazioneCentrale = new neighborhoodsColorOption('Stazione Centrale', '#F7BDAF')
-optionsSS.Gorla = new neighborhoodsColorOption('Gorla', '#FEFBCA')
-optionsSS.Turro = new neighborhoodsColorOption('Turro', '#CBE5BE')
-optionsSS.Greco = new neighborhoodsColorOption('Greco', '#f3f3db')
+optionsSS.CentroStorico = new neighborhoodsColorOption('Centro storico', '#8AA9D5')
+optionsSS.StazioneCentrale = new neighborhoodsColorOption('Stazione Centrale', '#8d95d8')
+optionsSS.Gorla = new neighborhoodsColorOption('Gorla', '#9f90da')
+optionsSS.Turro = new neighborhoodsColorOption('Turro', '#b793dc')
+optionsSS.Greco = new neighborhoodsColorOption('Greco', '#cf96de')
 optionsSS.Crescenzago = new neighborhoodsColorOption('Crescenzago', '#b1dce2')
 optionsSS.CittaStudi = new neighborhoodsColorOption('Città Studi', '#FAD2DB')
 optionsSS.Lambrate = new neighborhoodsColorOption('Lambrate', '#D6C7DE')
@@ -162,6 +164,16 @@ optionsSS.Niguarda = new neighborhoodsColorOption('Niguarda', '#c6e5ec')
 /*-----------------------------------------------------------------------------
                                        EVENT HANDLERS
                                        -----------------------------------------------------------------------------*/
+// ADD SLIDEDOWN ANIMATION TO DROPDOWN //
+  // $('#redraw').on('show.bs.dropdown', function(e){
+  //   $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+  // });
+
+  // // ADD SLIDEUP ANIMATION TO DROPDOWN //
+  // $('.dropdown').on('hide.bs.dropdown', function(e){
+  //   $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+  // });
+
 // Event Handlers per disegnare poligoni cliccando sui corrispondenti nomi dei quartieri nel menù 
 
 
@@ -199,7 +211,7 @@ $('#redraw').click(function(){
         // redraw functionality enabled
         editor.enable();
         // changes confirmation button down
-        $('#redraw-done').slideDown('fast');
+        // $('#redraw-done').slideDown('fast');
         // change button class
         $this.addClass('attivo')
     };
@@ -209,7 +221,7 @@ $('#redraw-done').click(function() {
     // redraw functionality disabled
     editor.disable();
     // changes confirmation button up
-    $this.slideUp('fast');
+    // $this.slideUp('fast');
     // change button class
     $('#redraw').removeClass('attivo');
 
@@ -226,7 +238,7 @@ $('#delete').click(function(){
         // redraw functionality enabled
         remover.enable();
         // chenges confirmation button down
-        $('#delete-done').slideDown('fast');
+        // $('#delete-done').slideDown('fast');
         // change button class
         $this.addClass('attivo');
     };
@@ -239,7 +251,7 @@ $('#delete-done').click(function(e) {
     // changes confirmation button up
     $this.slideUp('fast');
     // change button class
-    $('#delete').removeClass('attivo');
+    // $('#delete').removeClass('attivo');
     // empty the drawn array
     disegnati.length = 0;    
     
@@ -270,74 +282,67 @@ map.on('draw:created' , function(e) {
     }
     drawnItems.addLayer(layer);
 
-    var shape = layer.toGeoJSON()
-    // toGeoJSON doesn't take into account the ShapeOptions properties, so I'm gonna do it myself!
-    // saving the neighborhood's name
-    shape.properties.name = nomeQuartiere;
-    // saving the neighborhood's color
-    coloreQuartiere = layer.options.color
-    shape.properties.color = coloreQuartiere;
-    var shape_for_db = JSON.stringify(shape);
-    console.log(shape_for_db);
+    // var shape = layer.toGeoJSON()
+    // // toGeoJSON doesn't take into account the ShapeOptions properties, so I'm gonna do it myself!
+    // // saving the neighborhood's name
+    // shape.properties.name = nomeQuartiere;
+    // // saving the neighborhood's color
+    // coloreQuartiere = layer.options.color
+    // shape.properties.color = coloreQuartiere;
+    // var shape_for_db = JSON.stringify(shape);
+    // console.log(shape_for_db);
 });
 
 
 
-var a;
+
 $('#save-drawing').click(function(){
     if (drawnItems.toGeoJSON().features.length !== 0){
-        var dati = JSON.stringify(drawnItems.toGeoJSON());
+        var obj = drawnItems._layers
+        var j = drawnItems.toGeoJSON();
+        // Since toGeoJSON doesn't take into account the ShapeOptions properties, so I'm gonna do it myself!
+        function exportGeoJSON () {
+            var count = 0;
+            Object.keys(obj).forEach(function(key) {
+                // saving the neighborhood's name
+                var nomeQuartiere = obj[key].options.name;
+                // saving the neighborhood's color
+                var coloreQuartiere = obj[key].options.color;
+                j.features[count].properties['name'] = nomeQuartiere;
+                j.features[count].properties['color'] = coloreQuartiere;
+                count += 1 ;
+            });
+            return j;
+        }
+        exportGeoJSON();
+        // var dati = JSON.stringify(drawnItems.toGeoJSON());
+        var dati = JSON.stringify(j);
+        console.log(dati);
         $.ajax("/save_json", {
-        data: dati,
-        contentType : "application/json",
-        type : "POST"
+            data: dati,
+            contentType : "application/json",
+            type : "POST"
         })    
     }
 });
 
+
+
+
 // $.when(drawnItems.toGeoJSON().features.length !== 0).done(console.log('DESIGNATO'));
-if (drawnItems.toGeoJSON().features.length !== 0){
-    console.log('DESIGNATO');
-    $('#save-drawing').removeClass('soft-color');
+// if (drawnItems.toGeoJSON().features.length !== 0){
+//     console.log('DESIGNATO');
+//     $('#save-drawing').removeClass('soft-color');
+// }
+function exportGeoJSON () {
+    var obj = drawnItems._layers
+    var count = 0;
+    var j = drawnItems.toGeoJSON();
+    Object.keys(obj).forEach(function(key) {
+        var nomeQuartiere = obj[key].options.name;
+        j.features[count].properties['name'] = nomeQuartiere
+        count += 1 ;
+        
+    });
+    return j;
 }
-/*obj[key]
-var obj = drawnItems._layers
-Object.keys(obj).forEach(function(key) {
-    // console.log(key, obj[key]);
-    console.log(obj[key]);
-// console.log(obj[key].toGeoJSON())
-});
-
-$(obj).each(function(i,e) {
- console.log(e[i].toGeoJSON());   
-});
-
-// .features[0].properties['name']=nomeQuartiere
-var disegnini = drawnItems.toGeoJSON() 
-for (var disegnini in disegnini ){
-    console.log(disegno);
-    console.log(disegnini);
-}
-
-
-$(disegnini.features).each(function(index, el) {
-    console.log(index);
-    console.log(el.properties['name']=nomeQuartiere[index]); // drawnItems._layers[49].options.name
-    console.log(el.properties['color']=coloreQuartiere[index]);
-});
-$(drawnItems._layers).each(function(index, el) {
-    console.log(index);
-    console.log(el);
-    // console.log(el.properties['name']=nomeQuartiere[index]); // drawnItems._layers[49].options.name
-    // console.log(el.properties['color']=coloreQuartiere[index]);
-});
-
-var obj = drawnItems._layers
-Object.keys(obj).forEach(function(key) {
-    // console.log(key, obj[key]);
-    console.log(obj[key]);
-    var nomeQuartiere = obj[key].options.name;
-    console.log(obj[key].toGeoJSON().properties['name']=nomeQuartiere); // drawnItems._layers[49].options.name
-console.log(obj[key].toGeoJSON().properties.name)
-});
-*/

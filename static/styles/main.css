@@ -25,6 +25,20 @@
   padding: 0.2em 0;
 }
 
+
+body,
+html,
+#map{
+  height: 100%;
+}
+
+.h100{
+ height: 100%; 
+}
+/*non piu usata*/
+.padding{
+  padding: 20px;
+}
 /* Space out content a bit */
 body {
   padding-top: 0px;
@@ -59,9 +73,11 @@ body {
 .header h4 {
   font-family: 'Bubbleboddy-Light', sans-serif;
   font-size: 1.5em;
+  padding-bottom: 0px;
   }
 
 .header li a {
+  padding-right: 30px;
   padding-top: 66px;
   padding-bottom: 0px;
   margin: 0;
@@ -76,11 +92,9 @@ body {
   background-color: #999999;
 }
 
-.about{
-  padding-top: 20px;
-}
 
-.about h3 {
+
+h1, h2, h3, h4 {
   font-family: 'Bubbleboddy', sans-serif;
   font-size: 2.7em;
   margin-top: 0;
@@ -88,14 +102,35 @@ body {
   line-height: 40px;
   padding-bottom: 19px;
 }
-.about h4 {
+h2 {
+  font-family: 'Bubbleboddy-Light', sans-serif;
+  font-size: 2em;
+  }
+h4 {
   font-family: 'Bubbleboddy-Light', sans-serif;
   font-size: 1.2em;
   }
+.bubble{
+  font-family: 'Bubbleboddy-Light', sans-serif;
+}
+section{
+  display: block;
+  height: auto;
+}
 
+.about{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.about.eng{
+ padding-bottom: 40px; 
+}
 
-
-/*----------- Menù tipo mapbox---------------*/
+.centerContent{
+  margin-left: 50%;
+  left: -4%;
+}
+/*----------- Neighborhoods Menù---------------*/
 ul
 {
   list-style-type: none;
@@ -107,7 +142,7 @@ ul
   color: #000;
   position:absolute;
   top:10px;
-  right:10px;
+  right:50px;
   z-index:1;
   border-radius:3px;
   width:120px;
@@ -133,10 +168,10 @@ ul
   color: #f7f7f7;
 }
 
-.menu-ui span:first-child {
+.menu-ui>span:first-child {
   border-radius:3px 3px 0 0;
 }
-.menu-ui span:last-child {
+.menu-ui>span:last-child {
   border:none;
   border-radius:0 0 3px 3px;
 }
@@ -152,23 +187,120 @@ ul
   background:#3074a4;
 }
 
-.btn-quartieri.selected{
-  color: red;
+.menu-controls{
+
 }
-#redraw {background: #fe7f43 ;  width:120px;}
-#redraw-done {background: #feb38f ; display: none; width:120px; position: relative; top: 0; margin: 0; line-height: 20px; font-size: 12px;}
-#delete {background: #fe4365 ;  width:120px; margin-top: 0px; }
-#delete-done {background: #fe8fa3 ; display: none;  width:120px; position: relative; top: 0px; margin: 0; line-height: 20px; font-size: 12px;}
+.controls{
+   width:120px;
+}
+.controls-confirm{
+  position: relative; 
+  top: 0; 
+  margin: 0; 
+  line-height: 20px; 
+  font-size: 12px;
+}
+.menu-quartieri{
+
+}
+
+
+
+.dropdown-quartieri {
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 0;
+}
+.dropdown-quartieri li{
+  border-radius: 0px;
+}
 
 .soft-color{
   background:#67B567;
 }
 
+
+/*ABOUT PAGE*/
+.tilde{
+  padding: 10px 0px;
+  text-align: center;
+  font-size: 2.7em;
+}
+.tilde p{
+  padding: 0;
+}
+.row-fluid.eng{
+  padding-bottom: 50px;
+}
+
 /*---------MAP----------------------*/
 #map {
-      height: 1000px;
+      /*height: 1000px;*/
+      padding-top: 200px;
     }
 
+/* Other map elements*/
+.leaflet-top {
+  top: 120px;
+}
+
+/*-------------------------------------
+                Menu
+-------------------------------------*/
+.navbar.navbar-fixed-top{
+  background-color: rgba(255,255,255,0.7);
+}
+
+#MainMenu{
+  position: absolute;
+  top: 120px;
+  right: 0px;
+  z-index: 2;
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 120px;
+}
+
+#MainMenu a,
+#MainMenu input{
+    text-align: center;
+  font-weight: 800;
+  font-size: 1.3em;
+  color: #555555;
+}
+#MainMenu a:hover,
+#MainMenu input:hover{
+
+  color: #fff;
+}
+.list-group.panel > .list-group-item {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px
+}
+.list-group-submenu {
+  margin-left:20px;
+}
+
+#MainMenu .btn-quartieri{
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.btn-quartieri.selected{
+  color: red;
+}
+
+#demo5{
+  height: 200px!important;
+  overflow-y: scroll; 
+}
+/*input button*/
+#save-drawing {background: #5ACD8C ; width: 100%;}
+/*modify buttons*/
+#redraw {background: #fe7f43 ; }
+#redraw-done {background: #feb38f ; }
+#delete {background: #fe4365 ;  }
+#delete-done {background: #fe8fa3 ; }
 
 
 /*---------- Responsive:------------
@@ -196,4 +328,25 @@ Portrait tablets and up */
   .jumbotron {
     border-bottom: 0;
   }
+
+
 }
+
+
+
+@media screen and (max-width: 767px){
+  #MainMenu{
+    top: 170px;
+  }
+ .leaflet-top {
+  margin-top:50px;
+  }
+    .header li a {
+    padding: 15px;
+  }
+  .top-200{
+    padding-top: 30px;
+  }
+}
+
+
