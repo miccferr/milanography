@@ -7,6 +7,8 @@ Milanography is a partecipative mapping project focused on Milan's neighborhoods
 
 It aims to make visible the "shared" image of the city, as perceived by its inhabitants, by mapping the closest spatial unit to their daily life. Which is precisely the neighborhood.
 
+![Milanography](milanography2-1300-700.png)
+
 It's basically a shameless adaptation of the great [Bostonography](http://bostonography.com/neighborhoods/) project to *la cità la pusee bèla ad mùnd* (A.K.A. Milan), but has also been  inspired by [Areas of Edinburgh](http://saintamh.org/maps/areas-of-edinburgh/) and [The Neighborhood Project.](https:%20//hood.theory%20.org%20/)  
 
 Here's a [Live version](104.167.110.117)  
