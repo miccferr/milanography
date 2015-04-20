@@ -99,5 +99,5 @@ Run postgres.py script:
 See the result (localhost) [127.0.0.1:5000](127.0.0.1:5000/)
 
 ## Deploy:
-So far I've only tested the app on a virtual server running Ubuntu server (v. 14.0) and a combination of Gunicorn + NGINX, but flask it's a pretty versitile framework. 
+So far I've only tested the app on a virtual server running Ubuntu server (v. 14.0) and a combination of Gunicorn + NGINX, but flask it's a pretty versatile framework. 
 
