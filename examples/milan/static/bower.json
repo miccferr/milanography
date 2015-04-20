@@ -1,0 +1,26 @@
+{
+  "name": "bower_components",
+  "version": "0.1",
+  "homepage": "https://github.com/miccferr/milanography",
+  "authors": [
+    "Cartowsky <mic.ferretti@gmail.com>"
+  ],
+  "description": "Milanography is a partecipative mapping project focused on Milan's neighborhoods.",
+  "main": "../scripts/main.js",
+  "keywords": [
+    "urban",
+    "cartography"
+  ],
+  "license": "cc0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "bootstrap": "~3.3.4"
+  }
+}

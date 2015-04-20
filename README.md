@@ -1,97 +1,101 @@
 Milanography
 ============
 
-# What
-Shameless adaptation of the great [Bostonography](http://bostonography.com/neighborhoods/) project to *la cità la pusee bèla ad mùnd* (A.K.A. Milan).  
+**WHAT:**  
 
-# When
-Soon.  
-~~But let's try first to start with a simpler site like [this](http://www.cityplanner.it/experiment_host/php/ol3_draw_save/draw-feature_mod1.php).~~  
-Update! Completed porting from PJ's website.  
-Next goal:    
+Milanography is a partecipative mapping project focused on Milan's neighborhoods.  
 
-- ~~Flask + SQLite~~
-- ~~Set default brushes panel to exactly one polygon per category (every neighborhood is a catergory).~~
-- ~~Set default polygon brush tool to draw just one and only one shape for each neighborhood.~~  
-- ~~Allow drawn shape to be modified.~~
-- ~~Flask + Postgres (via SQLAlchemy) ,es [1](http://blog.y3xz.com/blog/2012/08/16/flask-and-postgresql-on-heroku), [2](https://www.youtube.com/watch?v=FD0p-opdyoE) **NEW:** take a look at [this](https://stackoverflow.com/questions/9901082/what-is-this-javascript-require) script.~~ 
-- Error Handling.
-- HTML clean-up: Form section needs to be fixed.
-- Front-End (Nice Layout/Colours Palette/UI-UX etc etc..).
-- Optional: add a input GET button to retrieve the already drawn shapes, es [1](https://stackoverflow.com/questions/19794695/flask-python-buttons), [2](https://stackoverflow.com/questions/19796253/flask-python-buttons-not-responding).
-- Optional: Validate geoJSON via Programmatic Access to [geoJSON Lint](http://geojsonlint.com/)
+It aims to make visible the "shared" image of the city, as perceived by its inhabitants, by mapping the closest spatial unit to their daily life. Which is precisely the neighborhood.
+
+It's basically a shameless adaptation of the great [Bostonography](http://bostonography.com/neighborhoods/) project to *la cità la pusee bèla ad mùnd* (A.K.A. Milan), but has also been  inspired by [Areas of Edinburgh](http://saintamh.org/maps/areas-of-edinburgh/) and [The Neighborhood Project.](https:%20//hood.theory%20.org%20/)  
+
+Here's a [Live version](104.167.110.117)  
+
+**WHY:**  
+
+I liked all those experiences and wanted to replicate them in milan, but I missed the tools. Hence I decided to build it myslef.  
+This time though, entirely onto an **open-stack**:  *Postgres / PostGIS + Flask + LeafletJS*  
+
+**HOW:**  
+Milanography allows the user to draw a shape representing a neighborhood, from a list of suggest places. The user can then save and submit such shape, which is consequently saved on a Postgres instance via Flask.
+
+Everyone is warmly encouraged to contribute to and to improve the project!
+
+**Disclaimer!**  
+This is my first project with Python Flask, hence it's a truly *crude* application. Fork it and make it better!
+
+##Update:
+Of course the minute I finished this project I discovered somebody else did the same -but better! :)  
+Props to [@nichom](https://twitter.com/nichom) for his amazing piece of code: [neighborhoods](https://github.com/enam/neighborhoods)  
+I'm in love with it!
+
+Nonetheless, if you want to have the complete control of your infrastructure and run your own instances, this is still a good, yet basic, starting point to develop your own draw-collecting app.
+
+---
+
+## Dependencies:
+
+I assume you have the following tools in your system:
+
+- [Python](https://www.python.org/) (v. 2.7)
+- [PostgreSQL](http://postgresapp.com/) (latest) If you are running on an Apple machine you might want to check out [PostgresApp](http://postgresapp.com/)
 
 
+### Front-end 
+Common front-end dependencies are managed through [Bower](http://bower.io/)  
+Run on ```bower.json```
 
-# Why
-Why not?
+	bower install 
+Other dependencies are:
 
-# How
-Probably ~~GeoDjango~~ Flask + Postgres and some Leaflet wizardy.
+- [Leaflet.Draw](https://github.com/Leaflet/Leaflet.draw/)
+- [FileSaver.js](https://github.com/eligrey/FileSaver.js/)
 
-***
-***
-***
+### Python
+- Python  dependencies are contained within a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/)
 
-## Notes to Self:
+- Activate it 
 
-###Python & Flask & venvs
+		source env/bin/activate
 
-####First time user:
-- Install python virtual environment  
-- Install packages Flask + Psycopg2
+- Install (via [pip](https://pypi.python.org/pypi/pip)) Flask + Psycopg2 + SQLAlchemy
 
 		pip install Flask
 		pip install psycopg2
 		pip install Flask-SQLAlchemy
 
-####Every time
-- Activate venv 
+- Run Flask 
 
-		source venv/bin/activate
+		python app.py
 		
-- Cd the project folder
-
-		cd pj-porting-flask
-
-- Run Flask on pyscript
-
-		python postgres.py
-		
-- Once done, deactivate it
+- Once done, deactivate the virtualenv
 	
 		deactivate
 
-- **the latest dev branch is flask-postgres-dev**
-- **the latest 'stable' branch is milanography-pre-production**
+## Usage:
 
-### General app development
-There are currently two dev. versions of the app, supporting respectively Sqlite and Postgres. The final goal is to have a production version running on Postgres.
-#### SQLite version:
-Create SQLlite Db. The data is stored simply as text, as suggested [here](http://stackoverflow.com/a/16603687/4118711):
+Download or ```git clone``` the repo.
 
-	CREATE TABLE shapes(col-one smallint, col-two varchar(10));
-	
-Run app.py script:
+Then ```cd dist``` if you want to use a raw, unstylized version of the app.
+Otherwise you can ```cd examples/milan``` to use a simple theme.
 
-	python app.py
-
-To query via terminal the Db:
-	
-	sqlite3 <name-table>
-
-Useful commands:
-
-	.tables (outputs the list of table currently present)
-	.help
-
-
-
-#### PostgreSQL version:
-Create PostgreSQL Db. The data is stored as JSON data type:
+#### PostgreSQL set-up:
+Create PostgreSQL Db. The data is stored as JSON data type, es:  
 
 	CREATE TABLE shapes (id integer, data json);
-	
+
+#### Activate virtualenv: 
+
+	source env/bin/activate
+
+#### Run Flask: 
 Run postgres.py script:
 
-	python postgres.py
+	python app.py
+	
+#### Profit:
+See the result (localhost) [127.0.0.1:5000](127.0.0.1:5000/)
+
+## Deploy:
+So far I've only tested the app on a virtual server running Ubuntu server (v. 14.0) and a combination of Gunicorn + NGINX, but flask it's a pretty versitile framework. 
+

@@ -1,0 +1,214 @@
+<!doctype html>
+<html class="no-js">
+<!--CERCARE flask xsrf  PER ROBE SU SICUREZZA DATI-->
+
+<head>
+  <meta charset="utf-8">
+  <title>Milanography</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="../static/bower_components/bootstrap/dist/css/bootstrap.css">
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+  <link rel="stylesheet" href="../static/styles/main.css">
+  <!-- endbuild -->
+  <!-- <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' /> -->
+
+</head>
+
+<body>
+    <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+
+            <div class="container-fluid h100">
+
+              <header class="navbar navbar-fixed-top">
+                <div class="header ">
+                  <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <h3 class="text-muted">Milanography</h3>
+                    <h4 class="text-muted">Disegna il tuo quartiere!</h4>
+                  </div>
+                  <div class="collapse navbar-collapse">
+                    <ul class="nav nav-pills pull-right">
+                      <li><a class='text-muted' href="about.html">About</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </header>
+
+              <section class="h100">
+                <form method="POST" action="/save_json" class="h100"> 
+                  <div class="row-fluid h100">
+                    <!-- Mappa -->
+                    <div id="map" class="col-lg-12 h100">
+                    <div id="MainMenu" class='bubble'>
+                      <div class="list-group panel">
+                        <input id='save-drawing' class="list-group-item list-group-item-success" type="submit" name="salva-disegno" value="Salva">
+                        <!-- <a id='save-drawing' href="#" class="list-group-item list-group-item-success" data-parent="#MainMenu" name="salva-disegno" value="Salva il disegno">Salva</a> -->
+                        <a id='redraw' href="#redraw-done" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Modifica</a>
+                        <div  class="collapse" id="redraw-done">
+                          <a href="#SubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubMenu1">Fatto<i class="fa fa-caret-down"></i></a>
+                          <!-- <a href="javascript:;" class="list-group-item">Subitem 2</a>
+                          <a href="javascript:;" class="list-group-item">Subitem 3</a> -->
+                        </div>
+                        <a id='delete' href="#delete-done" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Cancella</a>
+                        <div class="collapse" id="delete-done">
+                          <a href="#SubMenu1" class="list-group-item">Fatto</a>
+                        </div>
+                        <a href="#demo5" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Disegna</a>
+                        <div id="demo5" class="collapse scrollable-menu">
+                          <a id='CentroStorico' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='CentroStorico'>Centro Storico</a>
+                          <a id='StazioneCentrale' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='StazioneCentrale'>Stazione Centrale</a>
+                          <a id='Gorla' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Gorla'>Gorla</a>
+                          <a id='Turro' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Turro'>Turro</a>
+                          <a id='Greco' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Greco'>Greco</a>
+                          <a id='Crescenzago' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Crescenzago'>Crescenzago</a>
+                          <a id='CittaStudi' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='CittaStudi'>Città Studi</a>
+                          <a id='Lambrate' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Lambrate'>Lambrate</a>
+                          <a id='Venezia' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Venezia'>Venezia</a>
+                          <a id='Vittoria' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Vittoria'>Porta Vittoria</a>
+                          <a id='Forlanini' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Forlanini'>Forlanini</a>
+                          <a id='Vigentino' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Vigentino'>Vigentino</a>
+                          <a id='Chiaravalle' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Chiaravalle'>Chiaravalle</a>
+                          <a id='Gratosoglio' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Gratosoglio'>Gratosoglio</a>
+                          <a id='Barona' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Barona'>Barona</a>
+                          <a id='Lorenteggio' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Lorenteggio'>Lorenteggio</a>
+                          <a id='Baggio' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Baggio'>Baggio</a>
+                          <a id='DeAngeli' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='DeAngeli'>De Angeli</a>
+                          <a id='SanSiro' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='SanSiro'>San Siro</a>
+                          <a id='Fiera' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Fiera'>Fiera</a>
+                          <a id='Gallaratese' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Gallaratese'>Gallaratese</a>
+                          <a id='SanLeonardo' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='SanLeonardo'>San Leonardo</a>
+                          <a id='QuartoOggiaro' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='QuartoOggiaro'>Quarto Oggiaro</a>
+                          <a id='StazioneGaribaldi' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='StazioneGaribaldi'>Stazione Garibaldi</a>
+                          <a id='Niguarda' href="#SubMenu1" class="list-group-item btn-quartieri" data-opt='Niguarda'>Niguarda</a>
+                        </div>
+                      </div>
+                    </div>
+
+                      
+                      
+                      <!-- <nav class='menu-ui'>
+                      
+                       <div class="menu-controls">
+                        <input id='save-drawing' class="btn btn-success btn-lg soft-color" type="submit" name="salva-disegno" value="Salva il disegno">
+                        <span id='redraw'  href='#' class="controls btn btn-lg">Redraw</span>
+                        <span  id='redraw-done' class="controls controls-confirm btn  btn-lg">Done!</span>
+                        <span id='delete' href='#' class="controls btn btn-lg">Delete</span> 
+                        <span id='delete-done' class="controls controls-confirm btn  btn-lg">Done!></span>
+                      </div>
+                      
+                      <div class="menu-quartieri dropdown keep-open">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                          Action <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-quartieri" role="menu">
+                          <li><span id='CentroStorico' class='btn-quartieri' data-opt='CentroStorico'>Centro Storico</span></li>
+                          <li><span id='StazioneCentrale' class='btn-quartieri' data-opt='StazioneCentrale'>Stazione Centrale</span></li>
+                          <li><span id='Gorla' class='btn-quartieri' data-opt='Gorla' >Gorla</span></li>
+                          <li><span id='Turro' class='btn-quartieri' data-opt='Turro' >Turro</span></li>
+                          <li><span id='Greco' class='btn-quartieri' data-opt='Greco' >Greco</span></li>
+                          <li><span id='Crescenzago' class='btn-quartieri' data-opt='Crescenzago' >Crescenzago</span></li>
+                          <li><span id='CittaStudi' class='btn-quartieri' data-opt='CittaStudi' >Città Studi</span></li>
+                          <li><span id='Lambrate' class='btn-quartieri' data-opt='Lambrate' >Lambrate</span></li>
+                          <li><span id='Venezia' class='btn-quartieri' data-opt='Venezia' >Venezia</span></li>
+                          <li><span id='Vittoria' class='btn-quartieri' data-opt='Vittoria' >Vittoria</span></li>
+                          <li><span id='Forlanini' class='btn-quartieri' data-opt='Forlanini' >Forlanini</span></li>
+                          <li><span id='Vigentino' class='btn-quartieri' data-opt='Vigentino' >Vigentino</span></li>
+                          <li><span id='Chiaravalle' class='btn-quartieri' data-opt='Chiaravalle' >Chiaravalle</span></li>
+                          <li><span id='Gratosoglio' class='btn-quartieri' data-opt='Gratosoglio' >Gratosoglio</span></li>
+                          <li><span id='Barona' class='btn-quartieri' data-opt='Barona' >Barona </span></li>
+                          <li><span id='Lorenteggio' class='btn-quartieri' data-opt='Lorenteggio' >Lorenteggio</span></li>
+                          <li><span id='Baggio' class='btn-quartieri' data-opt='Baggio' >Baggio</span></li>
+                          <li><span id='DeAngeli' class='btn-quartieri' data-opt='DeAngeli' >De Angeli</span></li>
+                          <li><span id='SanSiro' class='btn-quartieri' data-opt='SanSiro' >San Siro</span></li>
+                          <li><span id='Fiera' class='btn-quartieri' data-opt='Fiera' >Fiera</span></li>
+                          <li><span id='Gallaratese' class='btn-quartieri' data-opt='Gallaratese' >Gallaratese</span></li>
+                          <li><span id='SanLeonardo' class='btn-quartieri' data-opt='SanLeonardo' >San Leonardo</span></li>
+                          <li><span id='QuartoOggiaro' class='btn-quartieri' data-opt='QuartoOggiaro' >Quarto Oggiaro</span></li>
+                          <li><span id='StazioneGaribaldi' class='btn-quartieri' data-opt='StazioneGaribaldi' >Stazione Garibaldi</span> </li>
+                          <li><span id='Niguarda' class='btn-quartieri' data-opt='Niguarda' >Niguarda</span></li>
+                        </ul>
+                      </div>
+                      </nav>  -->
+                  </div>
+                </div>    
+              </section>
+
+            </form>
+
+
+          </div><!-- end container -->
+
+
+          <!-- build:js scripts/vendor.js -->
+          <!-- bower:js -->
+          <script src="../static/bower_components/jquery/dist/jquery.js"></script>
+          <script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+          <!-- endbower -->
+          <!-- endbuild -->
+
+          <!-- build:js scripts/plugins.js -->
+
+
+          <!-- build:js({app,.tmp}) scripts/main.js -->
+          <!-- <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js">  </script> -->    
+          <!-- <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script> -->
+
+          <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+          <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+          <script src="../static/bower_components/Leaflet.draw/dist/leaflet.draw.js">  </script>
+          <script src="../static/bower_components/filesaver/FileSaver.min.js"></script>
+          <script src="../static/scripts/main.js">  </script>
+          <script>
+          // $('.navbar-toggle').click(function  () {
+          //   console.log('sadasd');
+          //   $('#MainMenu').toggleClass('top-200');
+          //   $('.leaflet-top').toggleClass('top-200');
+          //   // $('#MainMenu').css('top', '200px');
+          // })
+          // keep bootstrap menu open
+          $('.dropdown.keep-open').on({
+            "shown.bs.dropdown": function() { this.closable = false; },
+            "click":             function() { this.closable = true; },
+            "hide.bs.dropdown":  function() { return this.closable; }
+          });
+            // toggles class from nav for mobile
+            function resizeNavbar (){
+              if ($(window).width() < 768) {
+               $('.nav-pills').removeClass('pull-right');
+               $('.nav-pills > li').addClass('centerContent');
+              /*if( $('.navbar-collapse').hasClass('in') {
+                $('#MainMenu').addClass('no-padding')
+              })*/
+               
+             }else{
+              $('.nav-pills').addClass('pull-right');
+              $('.nav-pills > li').removeClass('centerContent');
+            }
+          }
+            // when the page loads
+            $( window ).ready(resizeNavbar);
+            // when it changes size
+            $( window ).resize(resizeNavbar);
+          </script>
+          <!-- endbuild -->
+
+
+        </body>
+
+        </html>

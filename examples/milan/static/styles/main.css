@@ -1,0 +1,352 @@
+/*----------------------------------------------------
+                      TYPOGRAPHY
+---------------------------------------------------- */
+@font-face {
+  font-family: 'Bubbleboddy';
+  src: url('../fonts/Bobbleboddy.ttf')  format('truetype')
+       
+}
+@font-face {
+  font-family: 'Bubbleboddy-Light';
+  src: url('../fonts/Bobbleboddy_light.ttf')  format('truetype')
+       
+}
+
+/*----------------------------------------------------
+                      STYLE
+---------------------------------------------------- */
+/*colors*/
+/*green #46DE46*/
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+
+body,
+html,
+#map{
+  height: 100%;
+}
+
+.h100{
+ height: 100%; 
+}
+/*non piu usata*/
+.padding{
+  padding: 20px;
+}
+/* Space out content a bit */
+body {
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 0;
+}
+
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  font-family: 'Bubbleboddy', sans-serif;
+  font-size: 4.2em;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+.header h4 {
+  font-family: 'Bubbleboddy-Light', sans-serif;
+  font-size: 1.5em;
+  padding-bottom: 0px;
+  }
+
+.header li a {
+  padding-right: 30px;
+  padding-top: 66px;
+  padding-bottom: 0px;
+  margin: 0;
+  font-family: 'Bubbleboddy-Light', sans-serif;
+  font-size: 1.5em;
+}
+.navbar-toggle {
+  margin-left: 50%;
+}
+
+.navbar-toggle .icon-bar{
+  background-color: #999999;
+}
+
+
+
+h1, h2, h3, h4 {
+  font-family: 'Bubbleboddy', sans-serif;
+  font-size: 2.7em;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+h2 {
+  font-family: 'Bubbleboddy-Light', sans-serif;
+  font-size: 2em;
+  }
+h4 {
+  font-family: 'Bubbleboddy-Light', sans-serif;
+  font-size: 1.2em;
+  }
+.bubble{
+  font-family: 'Bubbleboddy-Light', sans-serif;
+}
+section{
+  display: block;
+  height: auto;
+}
+
+.about{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.about.eng{
+ padding-bottom: 40px; 
+}
+
+.centerContent{
+  margin-left: 50%;
+  left: -4%;
+}
+/*----------- Neighborhoods Menù---------------*/
+ul
+{
+  list-style-type: none;
+  padding:0; margin:0;
+}
+
+.menu-ui {
+  /*background:#fff;*/
+  color: #000;
+  position:absolute;
+  top:10px;
+  right:50px;
+  z-index:1;
+  border-radius:3px;
+  width:120px;
+  /*border:1px solid rgba(0,0,0,0.4);*/
+}
+.menu-ui span {
+  font-size:13px;  
+  display: block;  
+  /*margin:0;padding:0;*/
+  padding:5px 10px;
+  text-decoration:none;
+  /*border-bottom:1px solid rgba(0,0,0,0.25);*/
+  text-align:center;
+}
+
+.menu-ui h3 {
+  display: inline-block;  
+  text-decoration:none;
+  text-align:center;
+  padding: 5px 10px
+}
+.menu-ui h3:hover {
+  color: #f7f7f7;
+}
+
+.menu-ui>span:first-child {
+  border-radius:3px 3px 0 0;
+}
+.menu-ui>span:last-child {
+  border:none;
+  border-radius:0 0 3px 3px;
+}
+.menu-ui span:hover {
+  background:#f8f8f8;
+  color:#000;
+}
+.menu-ui span.active {
+  background:#3887BE;
+  color:#fff;
+}
+.menu-ui span.active:hover {
+  background:#3074a4;
+}
+
+.menu-controls{
+
+}
+.controls{
+   width:120px;
+}
+.controls-confirm{
+  position: relative; 
+  top: 0; 
+  margin: 0; 
+  line-height: 20px; 
+  font-size: 12px;
+}
+.menu-quartieri{
+
+}
+
+
+
+.dropdown-quartieri {
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 0;
+}
+.dropdown-quartieri li{
+  border-radius: 0px;
+}
+
+.soft-color{
+  background:#67B567;
+}
+
+
+/*ABOUT PAGE*/
+.tilde{
+  padding: 10px 0px;
+  text-align: center;
+  font-size: 2.7em;
+}
+.tilde p{
+  padding: 0;
+}
+.row-fluid.eng{
+  padding-bottom: 50px;
+}
+
+/*---------MAP----------------------*/
+#map {
+      /*height: 1000px;*/
+      padding-top: 200px;
+    }
+
+/* Other map elements*/
+.leaflet-top {
+  top: 120px;
+}
+
+/*-------------------------------------
+                Menu
+-------------------------------------*/
+.navbar.navbar-fixed-top{
+  background-color: rgba(255,255,255,0.7);
+}
+
+#MainMenu{
+  position: absolute;
+  top: 120px;
+  right: 0px;
+  z-index: 2;
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 120px;
+}
+
+#MainMenu a,
+#MainMenu input{
+    text-align: center;
+  font-weight: 800;
+  font-size: 1.3em;
+  color: #555555;
+}
+#MainMenu a:hover,
+#MainMenu input:hover{
+
+  color: #fff;
+}
+.list-group.panel > .list-group-item {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px
+}
+.list-group-submenu {
+  margin-left:20px;
+}
+
+#MainMenu .btn-quartieri{
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.btn-quartieri.selected{
+  color: red;
+}
+
+#demo5{
+  height: 200px!important;
+  overflow-y: scroll; 
+}
+/*input button*/
+#save-drawing {background: #5ACD8C ; width: 100%;}
+/*modify buttons*/
+#redraw {background: #fe7f43 ; }
+#redraw-done {background: #feb38f ; }
+#delete {background: #fe4365 ;  }
+#delete-done {background: #fe8fa3 ; }
+
+
+/*---------- Responsive:------------
+Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 100%;
+  }
+
+  /* Remove the padding we set earlier */
+  /*.header,*/
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Space out the masthead */
+ 
+  .header h3{
+    font-size: 4.5em;
+  }
+
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+
+
+}
+
+
+
+@media screen and (max-width: 767px){
+  #MainMenu{
+    top: 170px;
+  }
+ .leaflet-top {
+  margin-top:50px;
+  }
+    .header li a {
+    padding: 15px;
+  }
+  .top-200{
+    padding-top: 30px;
+  }
+}
+
+
